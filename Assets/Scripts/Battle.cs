@@ -420,11 +420,13 @@ public class Battle : MonoBehaviour
 
             if (turn != (allUnits.Count - 1))
         {
-            turn++;
+            Debug.Log($"Ending Turn {turn}");
+            turn++; 
         }
         else
         {
-            round++;
+            Debug.Log($"Ending Turn {turn} and Round {round}");
+                        round++;
             turn = 0;
             announcement.text = ($"Round {round}");
             foreach (GameObject unit in allUnits)
@@ -449,26 +451,33 @@ public class Battle : MonoBehaviour
     {
         if (show)
         {
-            switch (allowableTarget)
-            {
-                case "BUnit":
-                    foreach (GameObject unit in bUnits)
-                    {
-                        targetIndicators[allUnits.IndexOf(unit)].SetActive(true);
-                    }
-                    break;
-                case "AUnit":
-                    foreach (GameObject unit in aUnits)
-                    {
-                        targetIndicators[allUnits.IndexOf(unit)].SetActive(true);
-                    }
-                    break;
-                case "All":
-                    foreach (GameObject targetIndicator in targetIndicators)
-                    {
-                        targetIndicator.SetActive(true);
-                    }
-                    break;
+            try {
+                switch (allowableTarget)
+                {
+
+
+                    case "BUnit":
+                        foreach (GameObject unit in bUnits)
+                        {
+                            targetIndicators[allUnits.IndexOf(unit)].SetActive(true);
+                        }
+                        break;
+                    case "AUnit":
+                        foreach (GameObject unit in aUnits)
+                        {
+                            targetIndicators[allUnits.IndexOf(unit)].SetActive(true);
+                        }
+                        break;
+                    case "All":
+                        foreach (GameObject targetIndicator in targetIndicators)
+                        {
+                            targetIndicator.SetActive(true);
+                        }
+                        break;
+                }
+            } catch (Exception ex) {
+                Debug.Log($"Exception in showing indicator: {ex}");
+
             }
         }
         else
