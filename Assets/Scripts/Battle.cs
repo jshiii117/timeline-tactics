@@ -406,6 +406,8 @@ public class Battle : MonoBehaviour
             //CheckDead
             if (allUnits[i].GetComponent<Unit>().isDead)
             {
+                Destroy(allUnits[i]); // Cannot destroy when hp is initially brought to zero because of missing gameObject error
+
                 Destroy(targetIndicators[i]);
                 targetIndicators.RemoveAt(i);
 
