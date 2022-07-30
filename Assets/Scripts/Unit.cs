@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Mirror;
+//using Mirror;
 using Random = System.Random;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
