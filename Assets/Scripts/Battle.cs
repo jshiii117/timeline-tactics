@@ -405,10 +405,7 @@ public class Battle : MonoBehaviour
         {
             //CheckDead
             if (allUnits[i].GetComponent<Unit>().isDead)
-            {
-                Destroy(allUnits[i]); // Cannot destroy when hp is initially brought to zero because of missing gameObject error
-                //allUnits.RemoveAt(i);
-
+            {           
                 Destroy(targetIndicators[i]);
                 targetIndicators.RemoveAt(i);
 
@@ -417,7 +414,19 @@ public class Battle : MonoBehaviour
 
                 unitPositions.RemoveAt(i);
 
+                try
+                {
+                    aUnits.RemoveAt(aUnits.IndexOf(allUnits[i]));
+
+                }catch
+                {
+                    bUnits.RemoveAt(bUnits.IndexOf(allUnits[i]));
+                }
+
+                Destroy(allUnits[i]);
                 allUnits.RemoveAt(i);
+
+
             }
         }
 
