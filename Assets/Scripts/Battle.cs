@@ -262,22 +262,13 @@ public class Battle : MonoBehaviour
     {
         if (executingMove == true)
         {
-            if (moveSelected == "attack")
-            {
-                activeUnitScript.Attack(target);
-            }
-            else if (moveSelected == "specialAttack")
-            {
-                activeUnitScript.SpecialAttack(target);
-            }
+           
 
             if (activeUnit.transform.position != target.transform.position)
             {
                 var step = 5 * Time.deltaTime;
                 activeUnit.transform.position = Vector2.MoveTowards(activeUnit.transform.position, target.transform.position, step);
                 UpdateTargetIndicators(false);
-                moveSelected = "unselected";
-
                 Vector3 camPosition = cam.transform.position;
 
                 camPosition.x = Mathf.Lerp(camPosition.x, activeUnit.transform.position.x, 0.01f);
@@ -304,7 +295,19 @@ public class Battle : MonoBehaviour
             else if (activeUnit.transform.position == target.transform.position)
             {
 
+                if (moveSelected == "attack")
+                {
+                    activeUnitScript.Attack(target);
+                }
+                else if (moveSelected == "specialAttack")
+                {
+                    activeUnitScript.SpecialAttack(target);
+                }
+
                 executingMove = false;
+                moveSelected = "unselected";
+
+
                 try
                 {
                     activeUnit.GetComponent<Animator>().SetTrigger("isAttacking");
@@ -312,7 +315,9 @@ public class Battle : MonoBehaviour
                 {
                     Debug.Log(ex);
                 }
-                
+
+               
+
                 yield return new WaitForSeconds(2f);
                 activeUnitScript.movedThisRound = true;
                 specialAttackButton.gameObject.SetActive(true);
