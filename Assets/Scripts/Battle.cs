@@ -319,11 +319,11 @@ public class Battle : MonoBehaviour
                
 
                 yield return new WaitForSeconds(2f);
-                activeUnitScript.movedThisRound = true;
-                specialAttackButton.gameObject.SetActive(true);
-                attackButton.gameObject.SetActive(true);
-                allowableTarget = null;
-                target = null;
+                //activeUnitScript.movedThisRound = true;
+                //specialAttackButton.gameObject.SetActive(true);
+                //attackButton.gameObject.SetActive(true);
+                //allowableTarget = null;
+                //target = null;
 
 
                 UpdateTurn(); // executingMove also set to false in here 
@@ -421,6 +421,11 @@ public class Battle : MonoBehaviour
     {
 
         executingMove = false;
+        activeUnitScript.movedThisRound = true;
+        specialAttackButton.gameObject.SetActive(true);
+        attackButton.gameObject.SetActive(true);
+        allowableTarget = null;
+        target = null;
         for (int i = 0; i < allUnits.Count; i++)
         {
             //CheckDead
