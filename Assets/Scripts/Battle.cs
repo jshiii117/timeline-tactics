@@ -53,6 +53,14 @@ public class Battle : MonoBehaviour
     [Header("InfoBox")]
     public GameObject infoTarget;
     public Text titleText;
+    public Text hpText;
+    public Text attackText;
+    public Text speedText;
+    public Text statusEffectTexts;
+    public Text passiveTitle;
+    public Text passiveText;
+    public Text specialTitle;
+    public Text specialText;
 
 
 
@@ -120,14 +128,21 @@ public class Battle : MonoBehaviour
 
     public void ShowUnitInformation()
     {
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(1)) //Right mouse-click
         {
             RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
             if (hit.collider != null && (allUnits.Contains(hit.transform.gameObject)))
             {
-                infoTarget = hit.transform.gameObject;
-                Unit info = infoTarget.GetComponent<Unit>();
+                Unit info = hit.transform.gameObject.GetComponent<Unit>();
+
                 titleText.text = ($"THE {info.unitName}").ToUpper();
+                hpText.text = ($"HP: {info.unitCurrentHealth}/{info.unitHealth}");
+                attackText.text = ($"ATK: {info.unitMinAttack}-{info.unitMaxAttack}");
+                speedText.text = ($"SPD: {info.unitSpeed}");
+                passiveTitle.text = ($"PASSIVE: {info.passiveAbility}").ToUpper();
+                passiveText.text = (info.passiveAbilityDescription ?? "Placeholder Passive Ability Description");
+                specialTitle.text = ($"SPECIAL: {info.specialAbility}").ToUpper();
+                specialText.text = (info.specialAbilityDescription ?? "Placeholder Special Ability Description");
             }
         }
     }
@@ -432,13 +447,11 @@ public class Battle : MonoBehaviour
 
             if (turn != (allUnits.Count - 1))
         {
-            Debug.Log($"Ending Turn {turn}");
             turn++; 
         }
         else
         {
-            Debug.Log($"Ending Turn {turn} and Round {round}");
-                        round++;
+            round++;
             turn = 0;
             announcement.text = ($"Round {round}");
             foreach (GameObject unit in allUnits)

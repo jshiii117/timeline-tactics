@@ -3742,6 +3742,14 @@ MonoBehaviour:
   camInitialPosition: {x: 0, y: 0, z: 0}
   infoTarget: {fileID: 0}
   titleText: {fileID: 200094234}
+  hpText: {fileID: 237317065}
+  attackText: {fileID: 1561115278}
+  speedText: {fileID: 1301284018}
+  statusEffectTexts: {fileID: 490673870}
+  passiveTitle: {fileID: 172443672}
+  passiveText: {fileID: 385300195}
+  specialTitle: {fileID: 553547868}
+  specialText: {fileID: 1898517909}
 --- !u!4 &1268089917
 Transform:
   m_ObjectHideFlags: 0

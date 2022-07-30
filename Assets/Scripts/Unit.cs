@@ -14,7 +14,9 @@ public class Unit : MonoBehaviour
     public string unitClass;
     public string unitDescription;
     public string passiveAbility;
+    public string passiveAbilityDescription;
     public string specialAbility;
+    public string specialAbilityDescription;    
 
     [Header("Unit Stats")]
     public int unitHealth;
