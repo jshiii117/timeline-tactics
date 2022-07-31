@@ -40,9 +40,9 @@ public class Battle : MonoBehaviour
     public string moveSelected = "unselected";
     public string allowableTarget;
     public GameObject target;
-    [SerializeField] private bool executingMove;
-    [SerializeField] private bool paused;
-
+    [SerializeField] public bool executingMove;
+    private bool executeOnlyOnce = false;
+         
     [Header("HUD Management")]
     public Button attackButton;
     public Button specialAttackButton;
@@ -62,6 +62,8 @@ public class Battle : MonoBehaviour
     public Text specialTitle;
     public Text specialText;
 
+    public delegate void ClickAction();
+    public static event ClickAction OnTurnTimeout;
 
 
 
@@ -260,79 +262,80 @@ public class Battle : MonoBehaviour
 
     IEnumerator ExecuteMove()
     {
-        if (executingMove == true)
-        {
-           
-
-            if (activeUnit.transform.position != target.transform.position)
+        if (!executeOnlyOnce) {
+            if (executingMove == true)
             {
-                var step = 5 * Time.deltaTime;
-                activeUnit.transform.position = Vector2.MoveTowards(activeUnit.transform.position, target.transform.position, step);
-                UpdateTargetIndicators(false);
-                Vector3 camPosition = cam.transform.position;
-
-                camPosition.x = Mathf.Lerp(camPosition.x, activeUnit.transform.position.x, 0.01f);
-                camPosition.y = Mathf.Lerp(camPosition.y, activeUnit.transform.position.y, 0.01f);
-                cam.transform.position = new Vector3(camPosition.x, camPosition.y, 0);
-                cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, 1, 0.005f);
-
-
-                //if (Math.Abs(activeUnit.transform.position.x - target.transform.position.x) < 3)
-                //{
-                //    cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, 1, 0.005f);
-                //}
-
-                if (activeUnit.transform.position.x < target.transform.position.x && activeUnit.transform.localScale.x < 0)
+                if (activeUnit.transform.position != target.transform.position)
                 {
-                    activeUnit.transform.localScale = new Vector3(activeUnit.transform.localScale.x * -1, activeUnit.transform.localScale.y, activeUnit.transform.localScale.z);
+                    var step = 5 * Time.deltaTime;
+                    activeUnit.transform.position = Vector2.MoveTowards(activeUnit.transform.position, target.transform.position, step);
+                    UpdateTargetIndicators(false);
+                    Vector3 camPosition = cam.transform.position;
+
+                    camPosition.x = Mathf.Lerp(camPosition.x, activeUnit.transform.position.x, 0.01f);
+                    camPosition.y = Mathf.Lerp(camPosition.y, activeUnit.transform.position.y, 0.01f);
+                    cam.transform.position = new Vector3(camPosition.x, camPosition.y, 0);
+                    cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, 1, 0.005f);
+
+
+                    //if (Math.Abs(activeUnit.transform.position.x - target.transform.position.x) < 3)
+                    //{
+                    //    cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, 1, 0.005f);
+                    //}
+
+                    if (activeUnit.transform.position.x < target.transform.position.x && activeUnit.transform.localScale.x < 0)
+                    {
+                        activeUnit.transform.localScale = new Vector3(activeUnit.transform.localScale.x * -1, activeUnit.transform.localScale.y, activeUnit.transform.localScale.z);
+                    }
+                    else if (activeUnit.transform.position.x > target.transform.position.x && activeUnit.transform.localScale.x > 0)
+                    {
+                        activeUnit.transform.localScale = new Vector3(activeUnit.transform.localScale.x * -1, activeUnit.transform.localScale.y, activeUnit.transform.localScale.z);
+
+                    }
                 }
-                else if (activeUnit.transform.position.x > target.transform.position.x && activeUnit.transform.localScale.x > 0)
+                else if (activeUnit.transform.position == target.transform.position)
                 {
-                    activeUnit.transform.localScale = new Vector3(activeUnit.transform.localScale.x * -1, activeUnit.transform.localScale.y, activeUnit.transform.localScale.z);
+
+                    if (moveSelected == "attack")
+                    {
+                        activeUnitScript.Attack(target);
+                    }
+                    else if (moveSelected == "specialAttack")
+                    {
+                        activeUnitScript.SpecialAttack(target);
+                    }
+
+                    moveSelected = "unselected";
+                    executeOnlyOnce = true;
+
+
+                    try
+                    {
+                        activeUnit.GetComponent<Animator>().SetTrigger("isAttacking");
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.Log(ex);
+                    }
+
+
+
+                    yield return new WaitForSeconds(2f);
+                    executeOnlyOnce = false;
+                    //activeUnitScript.movedThisRound = true;
+                    //specialAttackButton.gameObject.SetActive(true);
+                    //attackButton.gameObject.SetActive(true);
+                    //allowableTarget = null;
+                    //target = null;
+
+                    //executingMove = false;
+
+                    UpdateTurn(); // executingMove also set to false in here 
+
+
 
                 }
             }
-            else if (activeUnit.transform.position == target.transform.position)
-            {
-
-                if (moveSelected == "attack")
-                {
-                    activeUnitScript.Attack(target);
-                }
-                else if (moveSelected == "specialAttack")
-                {
-                    activeUnitScript.SpecialAttack(target);
-                }
-
-                executingMove = false;
-                moveSelected = "unselected";
-
-
-                try
-                {
-                    activeUnit.GetComponent<Animator>().SetTrigger("isAttacking");
-                }catch(Exception ex)
-                {
-                    Debug.Log(ex);
-                }
-
-               
-
-                yield return new WaitForSeconds(2f);
-                //activeUnitScript.movedThisRound = true;
-                //specialAttackButton.gameObject.SetActive(true);
-                //attackButton.gameObject.SetActive(true);
-                //allowableTarget = null;
-                //target = null;
-
-
-                UpdateTurn(); // executingMove also set to false in here 
-
-
-
-            }
-
-
         }
     }
 
@@ -417,7 +420,7 @@ public class Battle : MonoBehaviour
     {
         specialAttackButton.GetComponentInChildren<Text>().text = activeUnit.GetComponent<Unit>().specialAbility;
     }
-    void UpdateTurn()
+    public void UpdateTurn()
     {
 
         executingMove = false;
@@ -481,6 +484,8 @@ public class Battle : MonoBehaviour
             gameState = GameState.BTurn;
             UpdateAnnouncement("Player B's Turn");
         }
+
+        OnTurnTimeout(); //Resets timer
     }
     void UpdateTargetIndicators(bool show)
     {

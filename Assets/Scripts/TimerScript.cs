@@ -9,51 +9,77 @@ public class TimerScript : MonoBehaviour
     [SerializeField] private float indicatorTimer = 1.0f;
     [SerializeField] private float maxIndicatorTimer = 1.0f;
 
-    [SerializeField] public Image radialIndicatorUI = null;
+    [SerializeField] public Image radialIndicatorUI;
 
-    [SerializeField] private KeyCode selectKey = KeyCode.Mouse0;
+    public Battle battleManager;
 
-    [SerializeField] private UnityEvent myEvent = null;
+    private bool isDone = false;
 
-    private bool shouldUpdate = false;
+    void OnEnable()
+    {
+        Battle.OnTurnTimeout += ResetTimer;
+    }
 
     void Update()
     {
-        if (Input.GetKey(selectKey))
+        if (radialIndicatorUI.fillAmount > 0)
         {
-            shouldUpdate = false;
-            indicatorTimer -= Time.deltaTime;
-            radialIndicatorUI.enabled = true;
+            indicatorTimer -= Time.deltaTime * 0.3f;
             radialIndicatorUI.fillAmount = indicatorTimer;
-
-            if (indicatorTimer <= 0)
-            {
-                indicatorTimer = maxIndicatorTimer;
-                radialIndicatorUI.fillAmount = maxIndicatorTimer;
-                radialIndicatorUI.enabled = false;
-                myEvent.Invoke();
-            }
-        } else
-        {
-            if (shouldUpdate)
-            {
-                indicatorTimer += Time.deltaTime;
-                radialIndicatorUI.fillAmount = indicatorTimer;
-
-                if(indicatorTimer >= maxIndicatorTimer)
-                {
-                    indicatorTimer = maxIndicatorTimer;
-                    radialIndicatorUI.fillAmount = maxIndicatorTimer;
-                    radialIndicatorUI.enabled = false;
-                    shouldUpdate = false;
-                }
-            }
         }
 
-        if (Input.GetKeyUp(selectKey))
+        if (radialIndicatorUI.fillAmount <= 0 && !battleManager.executingMove)
         {
-            shouldUpdate = true;
+            StartCoroutine(TimerExpired());
+        }
+
+    }
+
+    void ResetTimer()
+    {
+
+        radialIndicatorUI.fillAmount = 1;
+        indicatorTimer = maxIndicatorTimer;
+        Debug.Log("Timer Reset");
+    }
+
+    IEnumerator TimerExpired()
+    {
+        if (!isDone && !battleManager.executingMove) //Only executes once and if a move is not currently being executed
+        {
+            if (battleManager.gameState == Battle.GameState.ATurn)
+            {
+                battleManager.UpdateAnnouncement("Time has expired for Player A");
+
+            }
+            else if (battleManager.gameState == Battle.GameState.BTurn)
+            {
+                battleManager.UpdateAnnouncement("Time has expired for Player B");
+
+            }
+            else
+            {
+                battleManager.UpdateAnnouncement("Error: timer expired but gamestate not ATurn or BTurn");
+            }
+
+            isDone = true;
+
+            battleManager.moveSelected = "unselected";
+            battleManager.specialAttackButton.gameObject.SetActive(true);
+            battleManager.attackButton.gameObject.SetActive(true);
+
+
+            yield return new WaitForSeconds(2f);
+
+            Debug.Log("Hello this is James");
+            isDone = false;
+
+            if (!battleManager.executingMove)
+            {
+                battleManager.UpdateTurn();
+            }
         }
     }
 
 }
+
