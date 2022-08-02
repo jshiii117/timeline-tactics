@@ -487,7 +487,7 @@ public class Battle : MonoBehaviour
 
         OnTurnTimeout(); //Resets timer
     }
-    void UpdateTargetIndicators(bool show)
+    public void UpdateTargetIndicators(bool show)
     {
         if (show)
         {

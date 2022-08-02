@@ -62,6 +62,7 @@ public class TimerScript : MonoBehaviour
                 battleManager.UpdateAnnouncement("Error: timer expired but gamestate not ATurn or BTurn");
             }
 
+            battleManager.UpdateTargetIndicators(false);
             isDone = true;
 
             battleManager.moveSelected = "unselected";
