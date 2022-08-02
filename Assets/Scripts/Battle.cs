@@ -62,8 +62,16 @@ public class Battle : MonoBehaviour
     public Text specialTitle;
     public Text specialText;
 
+    [Header("Player Management")]
+    public int playerAMana = 8;
+    [SerializeField] private Slider playerAManaBar;
+    public int playerBMana = 8;
+    [SerializeField] private Slider playerBManaBar;
+
     public delegate void ClickAction();
     public static event ClickAction OnTurnTimeout;
+
+    
 
 
 
@@ -549,6 +557,25 @@ public class Battle : MonoBehaviour
         }
 
     }
+
+    void UpdateManaBar(GameState playerTurn)
+    {
+        if (playerTurn == GameState.ATurn)
+        {
+            playerAMana -= 1;
+            playerAManaBar.value -= 0.125f;
+        }
+        else if (playerTurn == GameState.BTurn)
+        {
+            playerBMana -= 1;
+            playerBManaBar.value -= 0.125f;
+
+        }
+        else 
+        { 
+            Debug.Log("Error with UpdateManaBar"); 
+        }
+    }
     #endregion
 
     #region HUD Button Functions 
@@ -558,11 +585,39 @@ public class Battle : MonoBehaviour
         specialAttackButton.gameObject.SetActive(false);
         attackButton.gameObject.SetActive(false);
     }
-    public void OnSpecialAttackButtonPress()
+    public void OnSpecialAttackButtonPress() //If timer expires after move is selected mana is not refunded 
+        //Mana should be expended when move is finished not when selected
     {
-        moveSelected = "specialAttack";
-        specialAttackButton.gameObject.SetActive(false);
-        attackButton.gameObject.SetActive(false);
+        if (gameState == GameState.ATurn)
+        {
+            if (playerAMana > 0)
+            {
+                moveSelected = "specialAttack";
+                specialAttackButton.gameObject.SetActive(false);
+                attackButton.gameObject.SetActive(false);
+                UpdateManaBar(GameState.ATurn);
+            }
+            else
+            {
+                announcement.text = "Player A not enough mana";
+            }
+        }
+
+        if (gameState == GameState.BTurn)
+        {
+            if (playerBMana > 0)
+            {
+                moveSelected = "specialAttack";
+                specialAttackButton.gameObject.SetActive(false);
+                attackButton.gameObject.SetActive(false);
+                UpdateManaBar(GameState.BTurn);
+            }
+            else
+            {
+                announcement.text = "Player B not enough mana";
+            }
+        }
+
     }
     #endregion
 }
