@@ -63,9 +63,9 @@ public class Battle : MonoBehaviour
     public Text specialText;
 
     [Header("Player Management")]
-    public int playerAMana = 8;
+    public int playerAMana = 1;
     [SerializeField] private Slider playerAManaBar;
-    public int playerBMana = 8;
+    public int playerBMana = 1;
     [SerializeField] private Slider playerBManaBar;
 
     public delegate void ClickAction();
