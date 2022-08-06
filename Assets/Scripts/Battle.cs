@@ -63,9 +63,9 @@ public class Battle : MonoBehaviour
     public Text specialText;
 
     [Header("Player Management")]
-    public int playerAMana = 1;
+    public int playerAMana = 8;
     [SerializeField] private Slider playerAManaBar;
-    public int playerBMana = 1;
+    public int playerBMana = 8;
     [SerializeField] private Slider playerBManaBar;
 
     public delegate void ClickAction();
@@ -309,8 +309,9 @@ public class Battle : MonoBehaviour
                         activeUnitScript.Attack(target);
                     }
                     else if (moveSelected == "specialAttack")
-                    {
+                    {   
                         activeUnitScript.SpecialAttack(target);
+                        UpdateManaBar(activeUnit);
                     }
 
                     moveSelected = "unselected";
@@ -558,14 +559,14 @@ public class Battle : MonoBehaviour
 
     }
 
-    void UpdateManaBar(GameState playerTurn)
+    void UpdateManaBar(GameObject currentUnit)
     {
-        if (playerTurn == GameState.ATurn)
+        if (aUnits.Contains(currentUnit)) 
         {
-            playerAMana -= 1;
-            playerAManaBar.value -= 0.125f;
+                playerAMana -= 1;
+                playerAManaBar.value -= 0.125f;
         }
-        else if (playerTurn == GameState.BTurn)
+        else if (bUnits.Contains(currentUnit)) 
         {
             playerBMana -= 1;
             playerBManaBar.value -= 0.125f;
@@ -595,7 +596,7 @@ public class Battle : MonoBehaviour
                 moveSelected = "specialAttack";
                 specialAttackButton.gameObject.SetActive(false);
                 attackButton.gameObject.SetActive(false);
-                UpdateManaBar(GameState.ATurn);
+                //UpdateManaBar(GameState.ATurn);
             }
             else
             {
@@ -610,7 +611,7 @@ public class Battle : MonoBehaviour
                 moveSelected = "specialAttack";
                 specialAttackButton.gameObject.SetActive(false);
                 attackButton.gameObject.SetActive(false);
-                UpdateManaBar(GameState.BTurn);
+                //UpdateManaBar(GameState.BTurn);
             }
             else
             {
