@@ -1,12 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-//using Mirror;
 using Random = System.Random;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using Mirror;
 
-public class Unit : MonoBehaviour
+public class Unit : NetworkBehaviour
 {
     //Test Commit
     [Header("Unit Info")]
@@ -42,6 +42,8 @@ public class Unit : MonoBehaviour
     public virtual void Start()
     {
         unitCurrentHealth = unitHealth;
+        NetworkServer.Spawn(this.gameObject);
+
     }
 
     public virtual void Update()

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1883508374557423649}
   - component: {fileID: 5847520899812518385}
   - component: {fileID: -2277998613839656793}
+  - component: {fileID: -1769032702839086502}
   m_Layer: 0
   m_Name: unit_zealot
   m_TagString: Unit
@@ -146,7 +147,9 @@ MonoBehaviour:
   unitClass: SPX
   unitDescription: A religious fanatic
   passiveAbility: Accusation
+  passiveAbilityDescription: 
   specialAbility: Condemn
+  specialAbilityDescription: 
   unitHealth: 140
   unitCurrentHealth: 0
   unitMinAttack: 7
@@ -158,3 +161,21 @@ MonoBehaviour:
   isDead: 0
   announcement: {fileID: 0}
   battleManager: {fileID: 0}
+  IsMoved: 0
+--- !u!114 &-1769032702839086502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4801486177037645482}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  serverOnly: 0
+  visible: 0
+  m_AssetId: 48e1ec42ba8a8e9458868bfbee2d6cad
+  hasSpawned: 0

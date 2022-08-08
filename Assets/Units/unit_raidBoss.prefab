@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: -930825645585035841}
   - component: {fileID: -3088581203392365788}
   - component: {fileID: -6626572306128396393}
+  - component: {fileID: -2130626278403341545}
   m_Layer: 0
   m_Name: unit_raidBoss
   m_TagString: Unit
@@ -148,7 +149,9 @@ MonoBehaviour:
     beast known as the Raid Boss. Now he prowls the darkest dungeons, seeking his
     next meal.
   passiveAbility: Retribution
+  passiveAbilityDescription: 
   specialAbility: Earthshatter
+  specialAbilityDescription: 
   unitHealth: 200
   unitCurrentHealth: 0
   unitMinAttack: 15
@@ -156,4 +159,25 @@ MonoBehaviour:
   unitSpeed: 1
   attackTargets: enemies
   specialAttackTargets: enemies
-  animator: {fileID: 0}
+  movedThisRound: 0
+  isDead: 0
+  announcement: {fileID: 0}
+  battleManager: {fileID: 0}
+  IsMoved: 0
+--- !u!114 &-2130626278403341545
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 530671810705410349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  serverOnly: 0
+  visible: 0
+  m_AssetId: af70d0b5f58d47644928a39cafbc4610
+  hasSpawned: 0

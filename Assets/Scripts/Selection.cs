@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -50,34 +51,84 @@ public class Selection : NetworkBehaviour
 
     void Start()
     {
+        //gameState = GameState.Start;
+        //selectionAll.AddRange(GameObject.FindGameObjectsWithTag("Unit"));
+        //foreach(GameObject unit in selectionAll)
+        //{
+        //    unit.GetComponent<Animator>().SetBool("isActive", true);
+        //}
+
+        //for (int i = 0; i < 8; i++)
+        //{
+        //    try 
+        //    {
+        //        shownUnits.Add(selectionAll[i]);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        Debug.Log("Could not add into shownUnit" + e);
+        //    }
+
+
+        //}
+        //UpdateShownUnits();
+
+        //gameState = GameState.APick;
+
+    }
+
+    public void InitializeUnits()
+    {
         gameState = GameState.Start;
         selectionAll.AddRange(GameObject.FindGameObjectsWithTag("Unit"));
-        foreach(GameObject unit in selectionAll)
+        foreach (GameObject unit in selectionAll)
         {
             unit.GetComponent<Animator>().SetBool("isActive", true);
         }
 
         for (int i = 0; i < 8; i++)
         {
-            shownUnits.Add(selectionAll[i]);
-            
+            try
+            {
+                shownUnits.Add(selectionAll[i]);
+            }
+            catch (Exception e)
+            {
+                Debug.Log("Could not add into shownUnit" + e);
+            }
+
+
         }
         UpdateShownUnits();
 
         gameState = GameState.APick;
-
     }
 
     public void UpdateShownUnits()
     {
         for (int i = 0; i < 4; i++)
         {
-            shownUnits[i].transform.position = TOP_ROW_STARTING_POS + new Vector3((SELECTION_UNIT_GAP * i), 0f, 0f);
+            try
+            {
+                shownUnits[i].transform.position = TOP_ROW_STARTING_POS + new Vector3((SELECTION_UNIT_GAP * i), 0f, 0f);
+            }
+            catch (Exception e)
+            {
+                Debug.Log("Could not add units: " + e);
+            }
         }
 
         for (int i = 4; i < 8; i++)
         {
-            shownUnits[i].transform.position = BOT_ROW_STARTING_POS + new Vector3((SELECTION_UNIT_GAP * (i - 4)), 0f, 0f);
+            try 
+            {
+                shownUnits[i].transform.position = BOT_ROW_STARTING_POS + new Vector3((SELECTION_UNIT_GAP * (i - 4)), 0f, 0f);
+
+            }
+            catch (Exception e)
+            {
+                Debug.Log("Could not add units: " + e);
+            }
         }
 
         foreach (GameObject unit in GameObject.FindGameObjectsWithTag("Unit"))
@@ -131,6 +182,7 @@ public class Selection : NetworkBehaviour
                     infoText.text = ($"Player A selected {hitGameObject.GetComponent<Unit>().unitName}");
                     selectionsA.Add(hitGameObject);
                     GameObject selectedUnit = Instantiate(hitGameObject, A_STARTING_POS + new Vector3(TEAM_UNIT_GAP * (selectionsA.Count - 1), 0, 0), Quaternion.identity);
+                    NetworkServer.Spawn(selectedUnit);
                     selectedUnit.tag = "SelectedUnit";
 
                     gameState = GameState.BPick;

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2279017053246823163}
   - component: {fileID: 3960938679091264953}
   - component: {fileID: 6961104797463664078}
+  - component: {fileID: -7301785178458831056}
   m_Layer: 0
   m_Name: unit_dummy
   m_TagString: Unit
@@ -148,7 +149,9 @@ MonoBehaviour:
     ai chi bing qi lin. Dan shi, su du yu ji qin jiu, wo zui xi huan! Suo yi, bu
     yao wang ji, bu yao cuo guo, su du yu ji qing jiu.
   passiveAbility: Stand
+  passiveAbilityDescription: 
   specialAbility: Still
+  specialAbilityDescription: 
   unitHealth: 300
   unitCurrentHealth: 0
   unitMinAttack: 1
@@ -156,4 +159,25 @@ MonoBehaviour:
   unitSpeed: 1
   attackTargets: enemies
   specialAttackTargets: enemies
-  animator: {fileID: 0}
+  movedThisRound: 0
+  isDead: 0
+  announcement: {fileID: 0}
+  battleManager: {fileID: 0}
+  IsMoved: 0
+--- !u!114 &-7301785178458831056
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1444870632560585008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  serverOnly: 0
+  visible: 0
+  m_AssetId: 0cbea94a5e703c149b37c7b9dc0ea033
+  hasSpawned: 0

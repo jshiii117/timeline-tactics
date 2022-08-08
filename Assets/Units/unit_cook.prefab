@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4097943027905303006}
   - component: {fileID: 3210712637340137907}
   - component: {fileID: 1840042882896378739}
+  - component: {fileID: 2931641696592838595}
   m_Layer: 0
   m_Name: unit_cook
   m_TagString: Unit
@@ -147,7 +148,9 @@ MonoBehaviour:
   unitDescription: Look at his gorgeous moustache. Look at the way he moves. Look
     how he handles his skillet. How beautiful this man is.
   passiveAbility: Potluck
+  passiveAbilityDescription: 
   specialAbility: Fucking Raw
+  specialAbilityDescription: 
   unitHealth: 130
   unitCurrentHealth: 0
   unitMinAttack: 5
@@ -155,4 +158,25 @@ MonoBehaviour:
   unitSpeed: 40
   attackTargets: all
   specialAttackTargets: all
-  animator: {fileID: 0}
+  movedThisRound: 0
+  isDead: 0
+  announcement: {fileID: 0}
+  battleManager: {fileID: 0}
+  IsMoved: 0
+--- !u!114 &2931641696592838595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2691377826041569542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  serverOnly: 0
+  visible: 0
+  m_AssetId: f187d7bc52daece4f8517cb54aa38d42
+  hasSpawned: 0

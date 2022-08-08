@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 962758925312852704}
   - component: {fileID: 5329280532601755010}
   - component: {fileID: -2451766963016146566}
+  - component: {fileID: 2370517257588064074}
   m_Layer: 0
   m_Name: unit_crusader
   m_TagString: Unit
@@ -146,7 +147,9 @@ MonoBehaviour:
   unitClass: SPX
   unitDescription: A crusader with a cool cape.
   passiveAbility: Deus Vult
+  passiveAbilityDescription: 
   specialAbility: Crucifixion
+  specialAbilityDescription: 
   unitHealth: 160
   unitCurrentHealth: 0
   unitMinAttack: 8
@@ -154,4 +157,25 @@ MonoBehaviour:
   unitSpeed: 30
   attackTargets: enemies
   specialAttackTargets: all
-  animator: {fileID: 0}
+  movedThisRound: 0
+  isDead: 0
+  announcement: {fileID: 0}
+  battleManager: {fileID: 0}
+  IsMoved: 0
+--- !u!114 &2370517257588064074
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8281036293293895965}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  serverOnly: 0
+  visible: 0
+  m_AssetId: 8026d69a613eee84d83f7490c4034db6
+  hasSpawned: 0

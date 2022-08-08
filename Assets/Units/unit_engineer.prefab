@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: -3916391457652684807}
   - component: {fileID: 5533006127724158652}
   - component: {fileID: 6802989766452536445}
+  - component: {fileID: -4208975307323442658}
   m_Layer: 0
   m_Name: unit_engineer
   m_TagString: Unit
@@ -146,7 +147,9 @@ MonoBehaviour:
   unitClass: SPX
   unitDescription: An engineer and her trusty turret companion.
   passiveAbility: Innovation
+  passiveAbilityDescription: 
   specialAbility: Upgraderino Smackerdenio
+  specialAbilityDescription: 
   unitHealth: 110
   unitCurrentHealth: 0
   unitMinAttack: 2
@@ -154,4 +157,25 @@ MonoBehaviour:
   unitSpeed: 15
   attackTargets: enemies
   specialAttackTargets: all
-  animator: {fileID: 0}
+  movedThisRound: 0
+  isDead: 0
+  announcement: {fileID: 0}
+  battleManager: {fileID: 0}
+  IsMoved: 0
+--- !u!114 &-4208975307323442658
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3415568595387070032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  serverOnly: 0
+  visible: 0
+  m_AssetId: c6ceaa94d610a864bb30e70c1e939613
+  hasSpawned: 0
