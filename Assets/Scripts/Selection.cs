@@ -176,14 +176,21 @@ public class Selection : NetworkBehaviour
     {
         try {
             if (!selectionsA.Contains(hitGameObject) && !selectionsB.Contains(hitGameObject))
-            {
+            {;
+
                 if (gameState == GameState.APick)
                 {
                     infoText.text = ($"Player A selected {hitGameObject.GetComponent<Unit>().unitName}");
                     selectionsA.Add(hitGameObject);
-                    GameObject selectedUnit = Instantiate(hitGameObject, A_STARTING_POS + new Vector3(TEAM_UNIT_GAP * (selectionsA.Count - 1), 0, 0), Quaternion.identity);
-                    NetworkServer.Spawn(selectedUnit);
-                    selectedUnit.tag = "SelectedUnit";
+
+                    GameObject displayObject = new GameObject();
+                    displayObject.AddComponent<SpriteRenderer>();
+                    displayObject.GetComponent<SpriteRenderer>().sprite = hitGameObject.GetComponent<SpriteRenderer>().sprite;
+                    displayObject.transform.position = A_STARTING_POS + new Vector3(TEAM_UNIT_GAP * (selectionsA.Count - 1), 0, 0);
+
+                    //NetworkServer.Spawn(selectedUnit);
+                    displayObject.tag = "SelectedUnit";
+                    displayObject.name = "Display Unit Only";
 
                     gameState = GameState.BPick;
                 }
@@ -191,8 +198,15 @@ public class Selection : NetworkBehaviour
                 {
                     infoText.text = ($"Player B selected {hitGameObject.GetComponent<Unit>().unitName}");
                     selectionsB.Add(hitGameObject);
-                    GameObject selectedUnit = Instantiate(hitGameObject, B_STARTING_POS + new Vector3(TEAM_UNIT_GAP * (selectionsB.Count - 1), 0, 0), Quaternion.identity);
-                    selectedUnit.tag = "SelectedUnit";
+
+                    GameObject displayObject = new GameObject();
+                    displayObject.AddComponent<SpriteRenderer>();
+                    displayObject.GetComponent<SpriteRenderer>().sprite = hitGameObject.GetComponent<SpriteRenderer>().sprite;
+                    displayObject.transform.position = B_STARTING_POS + new Vector3(TEAM_UNIT_GAP * (selectionsB.Count - 1), 0, 0);
+
+                    //NetworkServer.Spawn(selectedUnit);
+                    displayObject.tag = "SelectedUnit";
+                    displayObject.name = "Display Unit Only";
 
                     gameState = GameState.APick;
                 }
@@ -243,10 +257,12 @@ public class Selection : NetworkBehaviour
 
 
                 GameObject.Destroy(GameObject.Find("infoUnitPicture"));
+                NetworkServer.Destroy(infoUnitPicture);
                 infoUnitPicture = Instantiate(hitGameObject, INFOPANEL_UNIT, Quaternion.identity);
                 infoUnitPicture.GetComponent<Animator>().SetBool("isActive", false);
                 infoUnitPicture.name = "infoUnitPicture";
-                infoUnitPicture.tag = "Untagged";
+                infoUnitPicture.tag = "Respawn";
+                NetworkServer.Spawn(infoUnitPicture);
 
             }
         }
