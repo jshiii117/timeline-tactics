@@ -33,7 +33,6 @@ public class CanvasScript : NetworkBehaviour
         GameObject.Find("leftButton").GetComponent<Button>().onClick.AddListener(delegate { selectionManager.LastPage(); });
         GameObject.Find("rightButton").GetComponent<Button>().onClick.AddListener(delegate { selectionManager.NextPage(); });
 
-
     }
 
     private void Update()

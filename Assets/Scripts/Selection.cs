@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Mirror;
 
-public class Selection : MonoBehaviour
+public class Selection : NetworkBehaviour
 {
     public enum GameState { Start, APick, BPick, Transition, Complete };
     public GameState gameState;
