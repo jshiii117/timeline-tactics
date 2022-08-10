@@ -27,7 +27,7 @@ public class UnitsManager : NetworkBehaviour
     GameObject iengineer;
     GameObject imedic;
     GameObject iraidBoss;
-    GameObject izealot;
+    public GameObject izealot;
     #endregion
 
     private void Start()
@@ -41,8 +41,6 @@ public class UnitsManager : NetworkBehaviour
         imedic = Instantiate(medic);
         iraidBoss = Instantiate(raidBoss);
         izealot = Instantiate(zealot);
-        Debug.Log("UnitManager started");
-
  
 
 

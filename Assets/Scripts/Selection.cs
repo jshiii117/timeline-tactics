@@ -184,14 +184,28 @@ public class Selection : NetworkBehaviour
                     gameState = GameState.APick;
                 }
 
+
                 GameObject displayObject = new GameObject();
+
                 displayObject.AddComponent<SpriteRenderer>();
+                displayObject.AddComponent<DisplayUnit>();
                 displayObject.GetComponent<SpriteRenderer>().sprite = hitGameObject.GetComponent<SpriteRenderer>().sprite;
                 displayObject.AddComponent<NetworkIdentity>();
                 displayObject.transform.position = displayPosition + new Vector3(TEAM_UNIT_GAP * (selectionCount - 1), 0, 0);
                 displayObject.tag = "SelectedUnit";
-                displayObject.name = "Display Unit Only";
-                NetworkServer.Spawn(displayObject);
+                displayObject.name = "Display Unit Only";                
+                
+                GameObject.Find("NetworkManager").GetComponent<NetworkManager>().spawnPrefabs.Add(displayObject);
+
+
+                System.Guid newUnitId = System.Guid.NewGuid();
+
+                // NetworkClient.RegisterPrefab(displayObject, newUnitId);
+    
+                Debug.Log(newUnitId);
+                NetworkServer.Spawn(displayObject, newUnitId);
+                
+                
 
             }
             else
