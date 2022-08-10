@@ -178,19 +178,17 @@ public class Selection : NetworkBehaviour
             if (!selectionsA.Contains(hitGameObject) && !selectionsB.Contains(hitGameObject))
             {;
 
+                Vector3 displayPosition = new Vector3();
+                int selectionCount = new int();
+
                 if (gameState == GameState.APick)
                 {
                     infoText.text = ($"Player A selected {hitGameObject.GetComponent<Unit>().unitName}");
                     selectionsA.Add(hitGameObject);
 
-                    GameObject displayObject = new GameObject();
-                    displayObject.AddComponent<SpriteRenderer>();
-                    displayObject.GetComponent<SpriteRenderer>().sprite = hitGameObject.GetComponent<SpriteRenderer>().sprite;
-                    displayObject.transform.position = A_STARTING_POS + new Vector3(TEAM_UNIT_GAP * (selectionsA.Count - 1), 0, 0);
-
-                    //NetworkServer.Spawn(selectedUnit);
-                    displayObject.tag = "SelectedUnit";
-                    displayObject.name = "Display Unit Only";
+                    displayPosition = A_STARTING_POS;
+                    selectionCount = selectionsA.Count;
+                    
 
                     gameState = GameState.BPick;
                 }
@@ -199,17 +197,21 @@ public class Selection : NetworkBehaviour
                     infoText.text = ($"Player B selected {hitGameObject.GetComponent<Unit>().unitName}");
                     selectionsB.Add(hitGameObject);
 
-                    GameObject displayObject = new GameObject();
-                    displayObject.AddComponent<SpriteRenderer>();
-                    displayObject.GetComponent<SpriteRenderer>().sprite = hitGameObject.GetComponent<SpriteRenderer>().sprite;
-                    displayObject.transform.position = B_STARTING_POS + new Vector3(TEAM_UNIT_GAP * (selectionsB.Count - 1), 0, 0);
-
-                    //NetworkServer.Spawn(selectedUnit);
-                    displayObject.tag = "SelectedUnit";
-                    displayObject.name = "Display Unit Only";
+                    displayPosition = B_STARTING_POS;
+                    selectionCount = selectionsB.Count;
 
                     gameState = GameState.APick;
                 }
+
+                GameObject displayObject = new GameObject();
+                displayObject.AddComponent<SpriteRenderer>();
+                displayObject.GetComponent<SpriteRenderer>().sprite = hitGameObject.GetComponent<SpriteRenderer>().sprite;
+                displayObject.AddComponent<NetworkIdentity>();
+                displayObject.transform.position = displayPosition + new Vector3(TEAM_UNIT_GAP * (selectionCount - 1), 0, 0);
+                displayObject.tag = "SelectedUnit";
+                displayObject.name = "Display Unit Only";
+                NetworkServer.Spawn(displayObject);
+
             }
             else
             {

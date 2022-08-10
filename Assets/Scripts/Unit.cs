@@ -42,7 +42,6 @@ public class Unit : NetworkBehaviour
     public virtual void Start()
     {
         unitCurrentHealth = unitHealth;
-        NetworkServer.Spawn(this.gameObject);
 
     }
 
