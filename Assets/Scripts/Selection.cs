@@ -51,33 +51,14 @@ public class Selection : NetworkBehaviour
 
     void Start()
     {
-        //gameState = GameState.Start;
-        //selectionAll.AddRange(GameObject.FindGameObjectsWithTag("Unit"));
-        //foreach(GameObject unit in selectionAll)
-        //{
-        //    unit.GetComponent<Animator>().SetBool("isActive", true);
-        //}
-
-        //for (int i = 0; i < 8; i++)
-        //{
-        //    try 
-        //    {
-        //        shownUnits.Add(selectionAll[i]);
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        Debug.Log("Could not add into shownUnit" + e);
-        //    }
-
-
-        //}
-        //UpdateShownUnits();
-
-        //gameState = GameState.APick;
-
+        infoUnitPicture = new GameObject();
+        infoUnitPicture.AddComponent<SpriteRenderer>();
+        infoUnitPicture.layer = 5;
+        infoUnitPicture.name = "Info Unit Picture";
+        infoUnitPicture.transform.position = INFOPANEL_UNIT;
     }
 
-    public void InitializeUnits()
+    public void InitializeUnits() //Being called from UnitsManager
     {
         gameState = GameState.Start;
         selectionAll.AddRange(GameObject.FindGameObjectsWithTag("Unit"));
@@ -256,15 +237,10 @@ public class Selection : NetworkBehaviour
                 passiveText.text = ($"PASSIVE:@{hitGameObject.GetComponent<Unit>().passiveAbility}").Replace("@", System.Environment.NewLine).ToUpper();
                 specialText.text = ($"SPECIAL:@{hitGameObject.GetComponent<Unit>().specialAbility}").Replace("@", System.Environment.NewLine).ToUpper();
 
-
-
-                GameObject.Destroy(GameObject.Find("infoUnitPicture"));
-                NetworkServer.Destroy(infoUnitPicture);
-                infoUnitPicture = Instantiate(hitGameObject, INFOPANEL_UNIT, Quaternion.identity);
-                infoUnitPicture.GetComponent<Animator>().SetBool("isActive", false);
-                infoUnitPicture.name = "infoUnitPicture";
-                infoUnitPicture.tag = "Respawn";
-                NetworkServer.Spawn(infoUnitPicture);
+                infoUnitPicture.GetComponent<SpriteRenderer>().sortingLayerName = "UI";
+                infoUnitPicture.GetComponent<SpriteRenderer>().sortingOrder = 2;
+                infoUnitPicture.GetComponent<SpriteRenderer>().sprite = hitGameObject.GetComponent<SpriteRenderer>().sprite;
+                // infoUnitPicture = Instantiate(hitGameObject, INFOPANEL_UNIT, Quaternion.identity);
 
             }
         }

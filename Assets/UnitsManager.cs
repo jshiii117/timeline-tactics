@@ -6,6 +6,7 @@ public class UnitsManager : NetworkBehaviour
 {
     private Selection selectionManager;
 
+    #region Unit Prefabs
     public GameObject caveman;
     public GameObject monk;
     public GameObject cook;
@@ -15,19 +16,42 @@ public class UnitsManager : NetworkBehaviour
     public GameObject medic;
     public GameObject raidBoss;
     public GameObject zealot;
+    #endregion
+
+    #region New GameObject container 
+    GameObject icaveman; 
+    GameObject imonk;
+    GameObject icook;
+    GameObject icrusader;
+    GameObject idummy;
+    GameObject iengineer;
+    GameObject imedic;
+    GameObject iraidBoss;
+    GameObject izealot;
+    #endregion
 
     private void Start()
-    {
-        GameObject icaveman = Instantiate(caveman);
-        GameObject imonk = Instantiate(monk);
-        GameObject icook = Instantiate(cook);
-        GameObject icrusader = Instantiate(crusader);
-        GameObject idummy = Instantiate(dummy);
-        GameObject iengineer = Instantiate(engineer);
-        GameObject imedic = Instantiate(medic);
-        GameObject iraidBoss = Instantiate(raidBoss);
-        GameObject instantiatedZealot = Instantiate(zealot);
+    {   
+        icaveman = Instantiate(caveman);
+        imonk = Instantiate(monk);
+        icook = Instantiate(cook);
+        icrusader = Instantiate(crusader);
+        idummy = Instantiate(dummy);
+        iengineer = Instantiate(engineer);
+        imedic = Instantiate(medic);
+        iraidBoss = Instantiate(raidBoss);
+        izealot = Instantiate(zealot);
+        Debug.Log("UnitManager started");
 
+ 
+
+
+
+        selectionManager = GameObject.Find("ScriptManager").GetComponent<Selection>();
+        selectionManager.InitializeUnits();
+    }
+
+    void OnServerConnect() {
         NetworkServer.Spawn(icaveman);
         NetworkServer.Spawn(imonk);
         NetworkServer.Spawn(icook);
@@ -36,12 +60,10 @@ public class UnitsManager : NetworkBehaviour
         NetworkServer.Spawn(iengineer);
         NetworkServer.Spawn(imedic);
         NetworkServer.Spawn(iraidBoss);
-        NetworkServer.Spawn(instantiatedZealot);
-        
+        NetworkServer.Spawn(izealot);
+        Debug.Log("New client joined");
 
-
-
-        selectionManager = GameObject.Find("ScriptManager").GetComponent<Selection>();
-        selectionManager.InitializeUnits();
     }
+
 }
+
