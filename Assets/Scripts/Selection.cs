@@ -47,6 +47,9 @@ public class Selection : NetworkBehaviour
     public GameObject hitGameObject;
 
 
+    Vector3 displayPosition;
+    int selectionCount;
+
 
 
     void Start()
@@ -159,8 +162,7 @@ public class Selection : NetworkBehaviour
             if (!selectionsA.Contains(hitGameObject) && !selectionsB.Contains(hitGameObject))
             {;
 
-                Vector3 displayPosition = new Vector3();
-                int selectionCount = new int();
+
 
                 if (gameState == GameState.APick)
                 {
@@ -187,13 +189,7 @@ public class Selection : NetworkBehaviour
 
                 GameObject displayObject = new GameObject();
 
-                displayObject.AddComponent<SpriteRenderer>();
-                displayObject.AddComponent<DisplayUnit>();
-                displayObject.GetComponent<SpriteRenderer>().sprite = hitGameObject.GetComponent<SpriteRenderer>().sprite;
-                displayObject.AddComponent<NetworkIdentity>();
-                displayObject.transform.position = displayPosition + new Vector3(TEAM_UNIT_GAP * (selectionCount - 1), 0, 0);
-                displayObject.tag = "SelectedUnit";
-                displayObject.name = "Display Unit Only";                
+                              
                 
                 GameObject.Find("NetworkManager").GetComponent<NetworkManager>().spawnPrefabs.Add(displayObject);
 
@@ -220,6 +216,22 @@ public class Selection : NetworkBehaviour
         }
         
     }
+
+    [Command]
+    void CmdSpawnDisplayUnit(GameObject displayObject){
+        displayObject.AddComponent<SpriteRenderer>();
+        displayObject.AddComponent<DisplayUnit>();
+        displayObject.GetComponent<SpriteRenderer>().sprite = hitGameObject.GetComponent<SpriteRenderer>().sprite;
+        displayObject.AddComponent<NetworkIdentity>();
+        displayObject.transform.position = displayPosition + new Vector3(TEAM_UNIT_GAP * (selectionCount - 1), 0, 0);
+        displayObject.tag = "SelectedUnit";
+        displayObject.name = "Display Unit Only";  
+
+        RpcSpawnDisplayUnit(displayObject);
+    }
+
+    [ClientRpc]
+    void RpcSpawnDisplayUnit(GameObject displayObject);
 
     void Update()
     {
