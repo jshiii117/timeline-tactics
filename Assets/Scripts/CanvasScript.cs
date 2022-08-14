@@ -46,6 +46,7 @@ public class CanvasScript : NetworkBehaviour
                 
             }
         }
+        Halo();
     }
 
     void OnStartServer()
@@ -58,6 +59,15 @@ public class CanvasScript : NetworkBehaviour
     public void OnButtonPress()
     {
         Instantiate(monk); 
+
+    }
+
+    void Halo(){
+        if(isServer && Input.GetKeyDown(KeyCode.X)){
+            Debug.Log("This is server");
+            GameObject spawnUnit = Instantiate(GameObject.Find("SelectableUnits").GetComponent<UnitsManager>().zealot);
+            NetworkServer.Spawn(spawnUnit);
+        }
 
     }
 

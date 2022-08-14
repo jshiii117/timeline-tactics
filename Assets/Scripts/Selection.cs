@@ -189,17 +189,19 @@ public class Selection : NetworkBehaviour
 
                 GameObject displayObject = new GameObject();
 
+                CmdSpawnDisplayUnit(displayObject);
+            
                               
                 
-                GameObject.Find("NetworkManager").GetComponent<NetworkManager>().spawnPrefabs.Add(displayObject);
+                // GameObject.Find("NetworkManager").GetComponent<NetworkManager>().spawnPrefabs.Add(displayObject);
 
 
-                System.Guid newUnitId = System.Guid.NewGuid();
+                // System.Guid newUnitId = System.Guid.NewGuid();
 
-                // NetworkClient.RegisterPrefab(displayObject, newUnitId);
+                // // NetworkClient.RegisterPrefab(displayObject, newUnitId);
     
-                Debug.Log(newUnitId);
-                NetworkServer.Spawn(displayObject, newUnitId);
+                // Debug.Log(newUnitId);
+                // NetworkServer.Spawn(displayObject, newUnitId);
                 
                 
 
@@ -219,6 +221,7 @@ public class Selection : NetworkBehaviour
 
     [Command]
     void CmdSpawnDisplayUnit(GameObject displayObject){
+        Debug.Log("Executing CmdSpawnDisplayUnit");
         displayObject.AddComponent<SpriteRenderer>();
         displayObject.AddComponent<DisplayUnit>();
         displayObject.GetComponent<SpriteRenderer>().sprite = hitGameObject.GetComponent<SpriteRenderer>().sprite;
@@ -231,7 +234,14 @@ public class Selection : NetworkBehaviour
     }
 
     [ClientRpc]
-    void RpcSpawnDisplayUnit(GameObject displayObject);
+    void RpcSpawnDisplayUnit(GameObject displayObject){
+        Debug.Log("Executing RpcSpawnDisplayUnit");
+        System.Guid newUnitId = System.Guid.NewGuid();
+        GameObject.Find("NetworkManager").GetComponent<NetworkManager>().spawnPrefabs.Add(displayObject); 
+        NetworkServer.Spawn(displayObject, newUnitId);
+
+
+    }
 
     void Update()
     {
