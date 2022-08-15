@@ -37,16 +37,23 @@ public class CanvasScript : NetworkBehaviour
 
     private void Update()
     {
-        foreach (GameObject playerPrefab in GameObject.FindGameObjectsWithTag("Player"))
-        {
-            if (playerPrefab.GetComponent<NetworkIdentity>().isLocalPlayer != true)
-            {
-                Debug.Log("Not local player");
-                playerPrefab.SetActive(false);
+        // foreach (GameObject playerPrefab in GameObject.FindGameObjectsWithTag("Player"))
+        // {
+        //     if (playerPrefab.GetComponent<NetworkIdentity>().isLocalPlayer != true)
+        //     {
+        //         Debug.Log("Not local player");
+        //         playerPrefab.SetActive(false);
                 
+        //     }
+        // }
+        if(Input.GetKeyDown(KeyCode.X)){
+            foreach(GameObject player in GameObject.FindGameObjectsWithTag("Player")) {
+                Debug.Log("Found a player:" + player.name);
+                player.GetComponent<CanvasScript>().Halo();
+
             }
         }
-        Halo();
+        
     }
 
     void OnStartServer()
@@ -62,16 +69,14 @@ public class CanvasScript : NetworkBehaviour
 
     }
 
+    [Command]
     void Halo(){
-        if(isServer && Input.GetKeyDown(KeyCode.X)){
-            Debug.Log("This is server");
+        if(isServer){
+            Debug.Log("Halo function");
             GameObject spawnUnit = Instantiate(GameObject.Find("SelectableUnits").GetComponent<UnitsManager>().zealot);
             NetworkServer.Spawn(spawnUnit);
+        }else{
+            Debug.Log("This is not server");
         }
-
     }
-
-    
-    
-
 }
