@@ -39,7 +39,7 @@ public class UnitsManager : NetworkBehaviour
         idummy = Instantiate(dummy);
         iengineer = Instantiate(engineer);
         imedic = Instantiate(medic);
-        iraidBoss = Instantiate(raidBoss);
+        iraidBoss = Instantiate(raidboss);
         izealot = Instantiate(zealot);
  
 
