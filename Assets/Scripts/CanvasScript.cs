@@ -63,13 +63,17 @@ public class CanvasScript : NetworkBehaviour
     }
 
     [Command]
-    public void Halo(Vector3 displayUnitPosition, GameObject spawnUnit){
+    public void Halo(Vector3 displayUnitPosition){
 
         if(isServer) {
-            Debug.Log("Halo function");
 
-            
-            Instantiate(spawnUnit);
+            UnitsManager unitsManager = GameObject.Find("SelectableUnits").GetComponent<UnitsManager>();
+
+            GameObject spawnUnit = Instantiate((GameObject)unitsManager.GetType().GetField(gameObject.GetComponent<Selection>().hitGameObject.name).GetValue(unitsManager));
+
+            // hitGameObject.GetComponent<Unit>().unitName.ToLower()
+
+            //GameObject newUnit = Instantiate(spawnUnit);
             Debug.Log("SpawnUnit IS: " + spawnUnit);
             spawnUnit.transform.position = displayUnitPosition;
             NetworkServer.Spawn(spawnUnit);
