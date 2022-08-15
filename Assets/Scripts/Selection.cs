@@ -171,7 +171,7 @@ public class Selection : NetworkBehaviour
                     selectionsA.Add(hitGameObject);
 
                     displayPosition = A_STARTING_POS;
-                    selectionCount = selectionsA.Count;
+                    selectionCount = selectionsA.Count - 1;
                     
 
                     gameState = GameState.BPick;
@@ -182,15 +182,27 @@ public class Selection : NetworkBehaviour
                     selectionsB.Add(hitGameObject);
 
                     displayPosition = B_STARTING_POS;
-                    selectionCount = selectionsB.Count;
+                    selectionCount = selectionsB.Count - 1;
 
                     gameState = GameState.APick;
                 }
 
 
-                GameObject displayObject = new GameObject();
+                Vector3 displayUnitPosition = displayPosition + new Vector3(TEAM_UNIT_GAP * selectionCount, 0, 0);         
 
-                CmdSpawnDisplayUnit(displayObject);               
+                UnitsManager unitsManager = GameObject.Find("SelectableUnits").GetComponent<UnitsManager>();
+
+                GameObject spawnUnit = (GameObject)unitsManager.GetType().GetField(hitGameObject.GetComponent<Unit>().unitName.ToLower()).GetValue(unitsManager);
+                Debug.Log("spawnUnit" + spawnUnit);
+            
+
+
+                GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+                foreach(GameObject player in players){
+                    Debug.Log("Found a player:" + player.name);
+                    player.GetComponent<CanvasScript>().Halo(displayUnitPosition, spawnUnit);
+                }
+                
                 
 
             }
@@ -236,13 +248,7 @@ public class Selection : NetworkBehaviour
         StartCoroutine(APick());
         StartCoroutine(BPick());
         Complete();
-        if(Input.GetKeyDown(KeyCode.X)){
-            GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-            foreach(GameObject player in players){
-                Debug.Log("Found a player:" + player.name);
-                player.GetComponent<CanvasScript>().Halo();
-            }
-        }
+ 
 
     }
 

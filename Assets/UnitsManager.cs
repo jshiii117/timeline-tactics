@@ -14,7 +14,7 @@ public class UnitsManager : NetworkBehaviour
     public GameObject dummy;
     public GameObject engineer;
     public GameObject medic;
-    public GameObject raidBoss;
+    public GameObject raidboss; //does not allow for camel case
     public GameObject zealot;
     #endregion
 
