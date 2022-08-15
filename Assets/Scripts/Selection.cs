@@ -23,6 +23,7 @@ public class Selection : NetworkBehaviour
     public Text classText;
     public Text hpText;
     public Text attackText;
+
     public Text speedText;
     public Text passiveText;
     public Text specialText;
@@ -189,20 +190,7 @@ public class Selection : NetworkBehaviour
 
                 GameObject displayObject = new GameObject();
 
-                CmdSpawnDisplayUnit(displayObject);
-            
-                              
-                
-                // GameObject.Find("NetworkManager").GetComponent<NetworkManager>().spawnPrefabs.Add(displayObject);
-
-
-                // System.Guid newUnitId = System.Guid.NewGuid();
-
-                // // NetworkClient.RegisterPrefab(displayObject, newUnitId);
-    
-                // Debug.Log(newUnitId);
-                // NetworkServer.Spawn(displayObject, newUnitId);
-                
+                CmdSpawnDisplayUnit(displayObject);               
                 
 
             }
@@ -248,6 +236,13 @@ public class Selection : NetworkBehaviour
         StartCoroutine(APick());
         StartCoroutine(BPick());
         Complete();
+        if(Input.GetKeyDown(KeyCode.X)){
+            GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+            foreach(GameObject player in players){
+                Debug.Log("Found a player:" + player.name);
+                player.GetComponent<CanvasScript>().Halo();
+            }
+        }
 
     }
 

@@ -46,13 +46,6 @@ public class CanvasScript : NetworkBehaviour
                 
         //     }
         // }
-        if(Input.GetKeyDown(KeyCode.X)){
-            foreach(GameObject player in GameObject.FindGameObjectsWithTag("Player")) {
-                Debug.Log("Found a player:" + player.name);
-                player.GetComponent<CanvasScript>().Halo();
-
-            }
-        }
         
     }
 
@@ -70,13 +63,16 @@ public class CanvasScript : NetworkBehaviour
     }
 
     [Command]
-    void Halo(){
-        if(isServer){
+    public void Halo(){
+
+        if(isServer) {
             Debug.Log("Halo function");
             GameObject spawnUnit = Instantiate(GameObject.Find("SelectableUnits").GetComponent<UnitsManager>().zealot);
             NetworkServer.Spawn(spawnUnit);
-        }else{
+        }else {
             Debug.Log("This is not server");
         }
+
+        
     }
 }
