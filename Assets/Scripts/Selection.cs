@@ -235,30 +235,6 @@ public class Selection : NetworkBehaviour
         
     }
 
-    [Command]
-    void CmdSpawnDisplayUnit(GameObject displayObject){
-        Debug.Log("Executing CmdSpawnDisplayUnit");
-        displayObject.AddComponent<SpriteRenderer>();
-        displayObject.AddComponent<DisplayUnit>();
-        displayObject.GetComponent<SpriteRenderer>().sprite = hitGameObject.GetComponent<SpriteRenderer>().sprite;
-        displayObject.AddComponent<NetworkIdentity>();
-        displayObject.transform.position = displayPosition + new Vector3(TEAM_UNIT_GAP * (selectionCount - 1), 0, 0);
-        displayObject.tag = "SelectedUnit";
-        displayObject.name = "Display Unit Only";  
-
-        RpcSpawnDisplayUnit(displayObject);
-    }
-
-    [ClientRpc]
-    void RpcSpawnDisplayUnit(GameObject displayObject){
-        Debug.Log("Executing RpcSpawnDisplayUnit");
-        System.Guid newUnitId = System.Guid.NewGuid();
-        GameObject.Find("NetworkManager").GetComponent<NetworkManager>().spawnPrefabs.Add(displayObject); 
-        NetworkServer.Spawn(displayObject, newUnitId);
-
-
-    }
-
     void Update()
     {
         StartCoroutine(APick());
