@@ -1298,7 +1298,10 @@ namespace Mirror
 
         // Deprecated 2021-12-11
         [Obsolete("Remove the NetworkConnection parameter in your override and use NetworkClient.connection instead.")]
-        public virtual void OnClientConnect(NetworkConnection conn) => OnClientConnect();
+        public virtual void OnClientConnect(NetworkConnection conn) {
+            // GameObject.Find("ScriptManager").GetComponent<NetworkIdentity>().AssignClientAuthority(conn);
+            OnClientConnect();
+        } 
 
         /// <summary>Called on clients when disconnected from a server.</summary>
         public virtual void OnClientDisconnect()

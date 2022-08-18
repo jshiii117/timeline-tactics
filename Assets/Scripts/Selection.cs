@@ -45,8 +45,11 @@ public class Selection : NetworkBehaviour
     private readonly Vector3 OFFSCREEN_UNITS = new Vector3(-4.5f, -3.5f, 0);
     private readonly Vector3 INFOPANEL_UNIT = new Vector3(3.62f, 0.888f, 0);
 
-    [SyncVar]
+    // [SyncVar]
     public GameObject hitGameObject;
+
+    [SyncVar]
+    public String hitGameObjectName;
 
 
     Vector3 displayPosition;
@@ -71,7 +74,7 @@ public class Selection : NetworkBehaviour
     {
         Debug.Log("Client started");
         GameObject testObject = GameObject.Find("SelectableUnits").GetComponent<UnitsManager>().caveman;
-        CmdUpdateHitGameObject(testObject);
+        // CmdUpdateHitGameObject(testObject);
     }
 
     public void InitializeUnits() //Being called from UnitsManager
@@ -204,13 +207,16 @@ public class Selection : NetworkBehaviour
 
                 UnitsManager unitsManager = GameObject.Find("SelectableUnits").GetComponent<UnitsManager>();
 
-                            
-
-
                 GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
                 foreach(GameObject player in players){
                     Debug.Log("Found a player:" + player.name);
-                    player.GetComponent<CanvasScript>().Halo(displayUnitPosition);
+                    
+                    if(player.GetComponent<CanvasScript>().isLocalPlayer){
+                        Debug.Log("LOCAL PLAYER");
+                        player.GetComponent<CanvasScript>().CmdUpdateHitGameObject(displayUnitPosition); //Halo called from inside CmdUpdateHitGameObject
+                    }
+                    
+                    
                 }
                 
                 
@@ -262,11 +268,11 @@ public class Selection : NetworkBehaviour
 
     }
 
-    [Command(requiresAuthority = false)] 
-    void CmdUpdateHitGameObject(GameObject updatedGameObject) {
-        Debug.Log("Updating hitgameObject");
-        hitGameObject = updatedGameObject;
-    }
+    // [Command] 
+    // void CmdUpdateHitGameObject(GameObject hitGameObject) {
+    //     Debug.Log("Updating confirmed selection GameObject");
+    //     confirmedGameObject = hitGameObject;
+    // }
 
     IEnumerator APick()
     {
@@ -279,8 +285,8 @@ public class Selection : NetworkBehaviour
             RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
             if (hit.collider != null)
             {
-                // hitGameObject = hit.transform.gameObject;
-                CmdUpdateHitGameObject(hit.transform.gameObject);
+                hitGameObject = hit.transform.gameObject;
+                // CmdUpdateHitGameObject(hit.transform.gameObject);
 
                 titleText.text = ($"THE {hitGameObject.GetComponent<Unit>().unitName}").ToUpper();
                 infoText.text = hitGameObject.GetComponent<Unit>().unitDescription;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Mirror;
+using System.Text.RegularExpressions;
 
 public class CanvasScript : NetworkBehaviour
 {
@@ -62,28 +63,39 @@ public class CanvasScript : NetworkBehaviour
 
     }
 
-    [Command]
+    [Command(requiresAuthority = false)]
     public void Halo(Vector3 displayUnitPosition){
 
         if(isServer) {
+            
+            string unitName = selectionManager.hitGameObjectName;
+            unitName = Regex.Replace(unitName, @"\s", "");
+            Debug.Log("UNIT NAME IS NOW " + unitName);
+            unitName = unitName.ToLower();
+            
 
             UnitsManager unitsManager = GameObject.Find("SelectableUnits").GetComponent<UnitsManager>();
 
-            GameObject spawnUnit = Instantiate((GameObject)unitsManager.GetType().GetField(gameObject.GetComponent<Selection>().hitGameObject.name).GetValue(unitsManager));
+            GameObject spawnUnit = Instantiate((GameObject)unitsManager.GetType().GetField(unitName).GetValue(unitsManager));
 
-            // hitGameObject.GetComponent<Unit>().unitName.ToLower()
-
-            //GameObject newUnit = Instantiate(spawnUnit);
-            Debug.Log("SpawnUnit IS: " + spawnUnit);
+            // GameObject spawnUnit = Instantiate(unitsManager.zealot);
             spawnUnit.transform.position = displayUnitPosition;
+
+
+            Debug.Log("SpawnUnit IS: " + spawnUnit);
             NetworkServer.Spawn(spawnUnit);
             
         }else {
             Debug.Log("This is not server");
-        }
+        }        
+    }
 
- 
-
+    [Command(requiresAuthority = false)]
+    public void CmdUpdateHitGameObject(Vector3 displayUnitPosition){
+        Debug.Log("Updating selection GameObject name");
         
+        selectionManager.hitGameObjectName = selectionManager.hitGameObject.GetComponent<Unit>().unitName;
+
+        Halo(displayUnitPosition);
     }
 }
