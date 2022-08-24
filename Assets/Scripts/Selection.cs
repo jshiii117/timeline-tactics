@@ -205,15 +205,13 @@ public class Selection : NetworkBehaviour
 
                 Vector3 displayUnitPosition = displayPosition + new Vector3(TEAM_UNIT_GAP * selectionCount, 0, 0);         
 
-                UnitsManager unitsManager = GameObject.Find("SelectableUnits").GetComponent<UnitsManager>();
-
                 GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
                 foreach(GameObject player in players){
                     Debug.Log("Found a player:" + player.name);
                     
                     if(player.GetComponent<CanvasScript>().isLocalPlayer){
                         Debug.Log("LOCAL PLAYER");
-                        player.GetComponent<CanvasScript>().CmdUpdateHitGameObject(displayUnitPosition); //Halo called from inside CmdUpdateHitGameObject
+                        player.GetComponent<CanvasScript>().CmdConfirmSelection(displayUnitPosition); 
                     }
                     
                     
@@ -261,8 +259,17 @@ public class Selection : NetworkBehaviour
             RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
             if (hit.collider != null)
             {
+
                 hitGameObject = hit.transform.gameObject;
-                // CmdUpdateHitGameObject(hit.transform.gameObject);
+                GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+
+                foreach(GameObject player in players){                    
+                    if(player.GetComponent<CanvasScript>().isLocalPlayer){
+                        Debug.Log("LOCAL PLAYER");
+                        player.GetComponent<CanvasScript>().CmdUpdateSelection(hitGameObject); 
+                    }
+                }
+
 
                 titleText.text = ($"THE {hitGameObject.GetComponent<Unit>().unitName}").ToUpper();
                 infoText.text = hitGameObject.GetComponent<Unit>().unitDescription;

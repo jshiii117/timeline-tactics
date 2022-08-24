@@ -133,7 +133,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  monk: {fileID: 0}
+  monk: {fileID: 8270383752457824732, guid: b0be003d912831d44a22c6c3fafea73f, type: 3}
+  selectionManager: {fileID: 0}
 --- !u!1001 &2849893997727465142
 PrefabInstance:
   m_ObjectHideFlags: 0

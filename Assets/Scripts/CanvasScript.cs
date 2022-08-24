@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Mirror;
 using System.Text.RegularExpressions;
+using System;
 
 public class CanvasScript : NetworkBehaviour
 {
@@ -57,20 +58,51 @@ public class CanvasScript : NetworkBehaviour
 
     }
 
-    public void OnButtonPress()
-    {
-        Instantiate(monk); 
+    [Command]
+    public void CmdUpdateSelection(GameObject hitGameObject){
+        Selection newSelectionManager = GameObject.Find("ScriptManager").GetComponent<Selection>();
+        
+        try{
+            newSelectionManager.hitGameObjectName = hitGameObject.GetComponent<Unit>().unitName;
+        }catch (Exception ex){
+            Debug.Log("Exception with UpdateSelection: " + ex);
+        }
+
 
     }
 
+    [Command]
+    public void CmdConfirmSelection(Vector3 displayUnitPosition){
+        Debug.Log("Updating selection GameObject name");
+        
+        Selection newSelectionManager = GameObject.Find("ScriptManager").GetComponent<Selection>();
+
+        try{
+            newSelectionManager.gameObject.GetComponent<NetworkIdentity>().RemoveClientAuthority();
+            newSelectionManager.gameObject.GetComponent<NetworkIdentity>().AssignClientAuthority(connectionToClient);
+        }catch (Exception ex){
+            Debug.Log("Exception adding client authority to selectionManager: " + ex);
+        }
+
+        if(this.hasAuthority){
+            Debug.Log("Has authority");
+        }
+        
+        
+        newSelectionManager.hitGameObjectName = newSelectionManager.hitGameObject.GetComponent<Unit>().unitName;
+
+        CmdSpawnSelection(displayUnitPosition);
+    }
+
     [Command(requiresAuthority = false)]
-    public void Halo(Vector3 displayUnitPosition){
+    public void CmdSpawnSelection(Vector3 displayUnitPosition){
 
         if(isServer) {
+
+            Selection newSelectionManager = GameObject.Find("ScriptManager").GetComponent<Selection>();
             
-            string unitName = selectionManager.hitGameObjectName;
+            string unitName = newSelectionManager.hitGameObjectName;
             unitName = Regex.Replace(unitName, @"\s", "");
-            Debug.Log("UNIT NAME IS NOW " + unitName);
             unitName = unitName.ToLower();
             
 
@@ -89,13 +121,6 @@ public class CanvasScript : NetworkBehaviour
             Debug.Log("This is not server");
         }        
     }
+    
 
-    [Command(requiresAuthority = false)]
-    public void CmdUpdateHitGameObject(Vector3 displayUnitPosition){
-        Debug.Log("Updating selection GameObject name");
-        
-        selectionManager.hitGameObjectName = selectionManager.hitGameObject.GetComponent<Unit>().unitName;
-
-        Halo(displayUnitPosition);
-    }
 }
