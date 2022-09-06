@@ -59,6 +59,11 @@ public class CanvasScript : NetworkBehaviour
     }
 
     [Command]
+    public void CmdUpdateState() {
+
+    }
+
+    [Command]
     public void CmdUpdateSelection(String hitObject){
         Selection newSelectionManager = GameObject.Find("ScriptManager").GetComponent<Selection>();
         
@@ -97,7 +102,7 @@ public class CanvasScript : NetworkBehaviour
     [Command(requiresAuthority = false)]
     public void CmdSpawnSelection(Vector3 displayUnitPosition){
 
-        if(isServer) {
+        try{
 
             Selection newSelectionManager = GameObject.Find("ScriptManager").GetComponent<Selection>();
             
@@ -112,13 +117,15 @@ public class CanvasScript : NetworkBehaviour
 
             // GameObject spawnUnit = Instantiate(unitsManager.zealot);
             spawnUnit.transform.position = displayUnitPosition;
+            spawnUnit.gameObject.tag = "SelectedUnit";
 
 
             Debug.Log("SpawnUnit IS: " + spawnUnit);
             NetworkServer.Spawn(spawnUnit);
+
             
-        }else {
-            Debug.Log("This is not server");
+        }catch (Exception ex) {
+            Debug.Log($"This is not server exception: {ex}");
         }        
     }
     

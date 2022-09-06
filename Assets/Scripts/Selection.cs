@@ -8,8 +8,11 @@ using Mirror;
 
 public class Selection : NetworkBehaviour
 {
-    public enum GameState { Start, APick, BPick, Transition, Complete };
-    public GameState gameState;
+    // public enum GameState { Start, APick, BPick, Transition, Complete };
+
+    [SyncVar]
+    public int gameState;
+    // 0 = start, 1 = A, 2 = B, 3 = transition, 4 = complete
 
     [Header("Unit Selections")]
     public List<GameObject> selectionAll;
@@ -82,7 +85,7 @@ public class Selection : NetworkBehaviour
 
     public void InitializeUnits() //Being called from UnitsManager
     {
-        gameState = GameState.Start;
+        gameState = 0;
         selectionAll.AddRange(GameObject.FindGameObjectsWithTag("Unit"));
         foreach (GameObject unit in selectionAll)
         {
@@ -104,7 +107,7 @@ public class Selection : NetworkBehaviour
         }
         UpdateShownUnits();
 
-        gameState = GameState.APick;
+        gameState = 1;
     }
 
     public void UpdateShownUnits()
@@ -183,7 +186,7 @@ public class Selection : NetworkBehaviour
 
 
 
-                if (gameState == GameState.APick)
+                if (gameState == 1)
                 {
                     infoText.text = ($"Player A selected {hitGameObject.GetComponent<Unit>().unitName}");
                     selectionsA.Add(hitGameObject);
@@ -192,7 +195,7 @@ public class Selection : NetworkBehaviour
                     selectionCount = selectionsA.Count - 1;
                     
 
-                    gameState = GameState.BPick;
+                    gameState = 2;
                 }
                 else
                 {
@@ -202,7 +205,7 @@ public class Selection : NetworkBehaviour
                     displayPosition = B_STARTING_POS;
                     selectionCount = selectionsB.Count - 1;
 
-                    gameState = GameState.APick;
+                    gameState = 1;
                 }
 
 
@@ -253,7 +256,7 @@ public class Selection : NetworkBehaviour
 
     IEnumerator APick()
     {
-        if (gameState != GameState.APick) { yield break; }
+        if (gameState != 1) { yield break; }
 
         Debug.Log("Player A's turn");
 
@@ -295,7 +298,7 @@ public class Selection : NetworkBehaviour
 
     IEnumerator BPick()
     {
-        if (gameState != GameState.BPick) {yield break;}
+        if (gameState != 2) {yield break;}
 
         Debug.Log("Player B's turn");
 
@@ -339,7 +342,7 @@ public class Selection : NetworkBehaviour
 
         if (selectionsA.Count == MAX_PLAYER_UNITS && selectionsB.Count == MAX_PLAYER_UNITS && SceneManager.GetActiveScene().name != "Battle")
         {
-            gameState = GameState.Complete;
+            gameState = 4;
             Debug.Log("Selection complete. Starting battle.");
             DontDestroyOnLoad(this.gameObject);
             DontDestroyOnLoad(GameObject.Find("SelectableUnits"));
