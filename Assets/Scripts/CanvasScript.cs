@@ -59,14 +59,10 @@ public class CanvasScript : NetworkBehaviour
     }
 
     [Command]
-    public void CmdUpdateSelection(GameObject hitGameObject){
+    public void CmdUpdateSelection(String hitObject){
         Selection newSelectionManager = GameObject.Find("ScriptManager").GetComponent<Selection>();
         
-        try{
-            newSelectionManager.hitGameObjectName = hitGameObject.GetComponent<Unit>().unitName;
-        }catch (Exception ex){
-            Debug.Log("Exception with UpdateSelection: " + ex);
-        }
+        newSelectionManager.initialHitGameObject = hitObject;
 
 
     }
@@ -89,7 +85,9 @@ public class CanvasScript : NetworkBehaviour
         }
         
         
-        newSelectionManager.hitGameObjectName = newSelectionManager.hitGameObject.GetComponent<Unit>().unitName;
+        // newSelectionManager.hitGameObjectName = newSelectionManager.hitGameObject.GetComponent<Unit>().unitName;
+
+        newSelectionManager.hitGameObjectName = newSelectionManager.initialHitGameObject;
 
         CmdSpawnSelection(displayUnitPosition);
     }

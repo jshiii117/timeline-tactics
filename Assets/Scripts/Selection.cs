@@ -46,7 +46,10 @@ public class Selection : NetworkBehaviour
     private readonly Vector3 INFOPANEL_UNIT = new Vector3(3.62f, 0.888f, 0);
 
     // [SyncVar]
-    public GameObject hitGameObject;
+    public GameObject hitGameObject = null;
+
+    [SyncVar] 
+    public String initialHitGameObject;
 
     [SyncVar]
     public String hitGameObjectName;
@@ -266,7 +269,7 @@ public class Selection : NetworkBehaviour
                 foreach(GameObject player in players){                    
                     if(player.GetComponent<CanvasScript>().isLocalPlayer){
                         Debug.Log("LOCAL PLAYER");
-                        player.GetComponent<CanvasScript>().CmdUpdateSelection(hitGameObject); 
+                        player.GetComponent<CanvasScript>().CmdUpdateSelection(hitGameObject.GetComponent<Unit>().unitName); 
                     }
                 }
 
