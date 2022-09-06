@@ -65,13 +65,16 @@ public class CanvasScript : NetworkBehaviour
         newSelectionManager.gameState = newGameState;
     }
 
+    [Command] 
+    public void CmdUpdateSelectionList(SyncList<GameObject> list, GameObject addUnit){
+        
+    }
+
     [Command]
     public void CmdUpdateSelection(String hitObject){
         Selection newSelectionManager = GameObject.Find("ScriptManager").GetComponent<Selection>();
         
         newSelectionManager.initialHitGameObject = hitObject;
-
-
     }
 
     [Command]
@@ -86,13 +89,6 @@ public class CanvasScript : NetworkBehaviour
         }catch (Exception ex){
             Debug.Log("Exception adding client authority to selectionManager: " + ex);
         }
-
-        if(this.hasAuthority){
-            Debug.Log("Has authority");
-        }
-        
-        
-        // newSelectionManager.hitGameObjectName = newSelectionManager.hitGameObject.GetComponent<Unit>().unitName;
 
         newSelectionManager.hitGameObjectName = newSelectionManager.initialHitGameObject;
 
@@ -124,6 +120,12 @@ public class CanvasScript : NetworkBehaviour
 
             Debug.Log("SpawnUnit IS: " + spawnUnit);
             NetworkServer.Spawn(spawnUnit);
+
+            if(newSelectionManager.gameState == 1) {
+                newSelectionManager.selectionsA.Add(spawnUnit);
+            }else {
+                newSelectionManager.selectionsB.Add(spawnUnit);
+            }
 
             
         }catch (Exception ex) {

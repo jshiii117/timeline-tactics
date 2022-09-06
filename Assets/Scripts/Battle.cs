@@ -82,8 +82,8 @@ public class Battle : MonoBehaviour
 
         //Adding in selected units from Selection scene 
         GameObject selectionManager = GameObject.Find("ScriptManager");
-        aUnits = selectionManager.GetComponent<Selection>().selectionsA;
-        bUnits = selectionManager.GetComponent<Selection>().selectionsB;
+        // aUnits = selectionManager.GetComponent<Selection>().selectionsA;
+        // bUnits = selectionManager.GetComponent<Selection>().selectionsB;
         allUnits.AddRange(aUnits);
         allUnits.AddRange(bUnits);
 

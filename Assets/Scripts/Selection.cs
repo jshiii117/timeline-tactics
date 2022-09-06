@@ -16,8 +16,8 @@ public class Selection : NetworkBehaviour
 
     [Header("Unit Selections")]
     public List<GameObject> selectionAll;
-    public List<GameObject> selectionsA;
-    public List<GameObject> selectionsB;
+    public readonly SyncList<GameObject> selectionsA = new SyncList<GameObject>();
+    public readonly SyncList<GameObject> selectionsB = new SyncList<GameObject>();
 
     [Header("Info Panel")]
     public Text titleText;
@@ -108,10 +108,9 @@ public class Selection : NetworkBehaviour
         UpdateShownUnits();
 
         gameState = 1;
-                        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-                foreach(GameObject player in players){
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        foreach(GameObject player in players){
             Debug.Log("Found a player:" + player.name);
-            
             if(player.GetComponent<CanvasScript>().isLocalPlayer){
                 Debug.Log("LOCAL PLAYER");
                 player.GetComponent<CanvasScript>().CmdUpdateGameState(gameState);
@@ -197,7 +196,7 @@ public class Selection : NetworkBehaviour
                 if (gameState == 1)
                 {
                     infoText.text = ($"Player A selected {hitGameObject.GetComponent<Unit>().unitName}");
-                    selectionsA.Add(hitGameObject);
+                    // selectionsA.Add(hitGameObject);
 
                     displayPosition = A_STARTING_POS;
                     selectionCount = selectionsA.Count - 1;
@@ -214,7 +213,7 @@ public class Selection : NetworkBehaviour
                 else if (gameState == 2)
                 {
                     infoText.text = ($"Player B selected {hitGameObject.GetComponent<Unit>().unitName}");
-                    selectionsB.Add(hitGameObject);
+                    // selectionsB.Add(hitGameObject);
 
                     displayPosition = B_STARTING_POS;
                     selectionCount = selectionsB.Count - 1;
