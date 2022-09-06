@@ -304,7 +304,16 @@ public class Selection : NetworkBehaviour
             RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
             if (hit.collider != null)
             {
+                
                 hitGameObject = hit.transform.gameObject;
+                GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+
+                foreach(GameObject player in players){                    
+                    if(player.GetComponent<CanvasScript>().isLocalPlayer){
+                        Debug.Log("LOCAL PLAYER");
+                        player.GetComponent<CanvasScript>().CmdUpdateSelection(hitGameObject.GetComponent<Unit>().unitName); 
+                    }
+                }
 
                 titleText.text = ($"THE {hitGameObject.GetComponent<Unit>().unitName}").ToUpper();
                 infoText.text = hitGameObject.GetComponent<Unit>().unitDescription;

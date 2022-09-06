@@ -89,6 +89,8 @@ public class CanvasScript : NetworkBehaviour
 
         newSelectionManager.hitGameObjectName = newSelectionManager.initialHitGameObject;
 
+        newSelectionManager.initialHitGameObject = "";
+
         CmdSpawnSelection(displayUnitPosition);
     }
 
