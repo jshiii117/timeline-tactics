@@ -108,6 +108,16 @@ public class Selection : NetworkBehaviour
         UpdateShownUnits();
 
         gameState = 1;
+                        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+                foreach(GameObject player in players){
+            Debug.Log("Found a player:" + player.name);
+            
+            if(player.GetComponent<CanvasScript>().isLocalPlayer){
+                Debug.Log("LOCAL PLAYER");
+                player.GetComponent<CanvasScript>().CmdUpdateGameState(gameState);
+            }
+        }
+        
     }
 
     public void UpdateShownUnits()
@@ -181,11 +191,9 @@ public class Selection : NetworkBehaviour
     public void ConfirmSelection()
     {
         try {
+            GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
             if (!selectionsA.Contains(hitGameObject) && !selectionsB.Contains(hitGameObject))
-            {;
-
-
-
+            {
                 if (gameState == 1)
                 {
                     infoText.text = ($"Player A selected {hitGameObject.GetComponent<Unit>().unitName}");
@@ -196,8 +204,14 @@ public class Selection : NetworkBehaviour
                     
 
                     gameState = 2;
+                                            
+                    foreach(GameObject player in players){
+                        if(player.GetComponent<CanvasScript>().isLocalPlayer){
+                            player.GetComponent<CanvasScript>().CmdUpdateGameState(gameState);
+                        }
+                    }
                 }
-                else
+                else if (gameState == 2)
                 {
                     infoText.text = ($"Player B selected {hitGameObject.GetComponent<Unit>().unitName}");
                     selectionsB.Add(hitGameObject);
@@ -206,32 +220,28 @@ public class Selection : NetworkBehaviour
                     selectionCount = selectionsB.Count - 1;
 
                     gameState = 1;
+
+                    foreach(GameObject player in players){
+                        if(player.GetComponent<CanvasScript>().isLocalPlayer){
+                            player.GetComponent<CanvasScript>().CmdUpdateGameState(gameState);
+                         }
+                    }       
                 }
-
-
                 Vector3 displayUnitPosition = displayPosition + new Vector3(TEAM_UNIT_GAP * selectionCount, 0, 0);         
 
-                GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-                foreach(GameObject player in players){
-                    Debug.Log("Found a player:" + player.name);
-                    
+                foreach(GameObject player in players){                        
                     if(player.GetComponent<CanvasScript>().isLocalPlayer){
-                        Debug.Log("LOCAL PLAYER");
+                        Debug.Log("CmdConfirmSelection");
                         player.GetComponent<CanvasScript>().CmdConfirmSelection(displayUnitPosition); 
                     }
-                    
-                    
                 }
-                
-                
-
             }
             else
             {
                 Debug.Log("This unit has been selected. Please choose another");
-
             }
         }
+        
         catch (UnassignedReferenceException)
         {
             Debug.Log("Please select a unit");

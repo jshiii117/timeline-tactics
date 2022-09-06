@@ -59,8 +59,10 @@ public class CanvasScript : NetworkBehaviour
     }
 
     [Command]
-    public void CmdUpdateState() {
+    public void CmdUpdateGameState(int newGameState) {
+        Selection newSelectionManager = GameObject.Find("ScriptManager").GetComponent<Selection>();
 
+        newSelectionManager.gameState = newGameState;
     }
 
     [Command]
