@@ -66,7 +66,7 @@ public class CanvasScript : NetworkBehaviour
     }
 
     [Command] 
-    public void CmdUpdateSelectionList(SyncList<GameObject> list, GameObject addUnit){
+    public void CmdUpdateSelectionList(GameObject addUnit){
         
     }
 
@@ -79,7 +79,7 @@ public class CanvasScript : NetworkBehaviour
 
     [Command]
     public void CmdConfirmSelection(Vector3 displayUnitPosition){
-        Debug.Log("Updating selection GameObject name");
+        Debug.Log($"Updating selection GameObject name: {displayUnitPosition}");
         
         Selection newSelectionManager = GameObject.Find("ScriptManager").GetComponent<Selection>();
 

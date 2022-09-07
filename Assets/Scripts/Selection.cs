@@ -78,7 +78,6 @@ public class Selection : NetworkBehaviour
 
     public override void OnStartClient()
     {
-        Debug.Log("Client started");
         GameObject testObject = GameObject.Find("SelectableUnits").GetComponent<UnitsManager>().caveman;
         // CmdUpdateHitGameObject(testObject);
     }
@@ -200,13 +199,11 @@ public class Selection : NetworkBehaviour
 
                     displayPosition = A_STARTING_POS;
                     selectionCount = selectionsA.Count - 1;
-                    
-
-                    gameState = 2;
-                                            
+                                                                
                     foreach(GameObject player in players){
                         if(player.GetComponent<CanvasScript>().isLocalPlayer){
-                            player.GetComponent<CanvasScript>().CmdUpdateGameState(gameState);
+                            Debug.Log("Updating Game State");
+                            player.GetComponent<CanvasScript>().CmdUpdateGameState(2);
                         }
                     }
                 }
@@ -218,11 +215,9 @@ public class Selection : NetworkBehaviour
                     displayPosition = B_STARTING_POS;
                     selectionCount = selectionsB.Count - 1;
 
-                    gameState = 1;
-
                     foreach(GameObject player in players){
                         if(player.GetComponent<CanvasScript>().isLocalPlayer){
-                            player.GetComponent<CanvasScript>().CmdUpdateGameState(gameState);
+                            player.GetComponent<CanvasScript>().CmdUpdateGameState(1);
                          }
                     }       
                 }
@@ -230,7 +225,6 @@ public class Selection : NetworkBehaviour
 
                 foreach(GameObject player in players){                        
                     if(player.GetComponent<CanvasScript>().isLocalPlayer){
-                        Debug.Log("CmdConfirmSelection");
                         player.GetComponent<CanvasScript>().CmdConfirmSelection(displayUnitPosition); 
                     }
                 }
@@ -257,17 +251,10 @@ public class Selection : NetworkBehaviour
 
     }
 
-    // [Command] 
-    // void CmdUpdateHitGameObject(GameObject hitGameObject) {
-    //     Debug.Log("Updating confirmed selection GameObject");
-    //     confirmedGameObject = hitGameObject;
-    // }
-
     IEnumerator APick()
     {
         if (gameState != 1) { yield break; }
 
-        Debug.Log("Player A's turn");
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -280,7 +267,6 @@ public class Selection : NetworkBehaviour
 
                 foreach(GameObject player in players){                    
                     if(player.GetComponent<CanvasScript>().isLocalPlayer){
-                        Debug.Log("LOCAL PLAYER");
                         player.GetComponent<CanvasScript>().CmdUpdateSelection(hitGameObject.GetComponent<Unit>().unitName); 
                     }
                 }
@@ -309,7 +295,6 @@ public class Selection : NetworkBehaviour
     {
         if (gameState != 2) {yield break;}
 
-        Debug.Log("Player B's turn");
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -322,7 +307,6 @@ public class Selection : NetworkBehaviour
 
                 foreach(GameObject player in players){                    
                     if(player.GetComponent<CanvasScript>().isLocalPlayer){
-                        Debug.Log("LOCAL PLAYER");
                         player.GetComponent<CanvasScript>().CmdUpdateSelection(hitGameObject.GetComponent<Unit>().unitName); 
                     }
                 }
@@ -352,7 +336,6 @@ public class Selection : NetworkBehaviour
         if (selectionsA.Count == MAX_PLAYER_UNITS && selectionsB.Count == MAX_PLAYER_UNITS && SceneManager.GetActiveScene().name != "Battle")
         {
             gameState = 4;
-            Debug.Log("Selection complete. Starting battle.");
             DontDestroyOnLoad(this.gameObject);
             DontDestroyOnLoad(GameObject.Find("SelectableUnits"));
             SceneManager.LoadScene("Battle");
