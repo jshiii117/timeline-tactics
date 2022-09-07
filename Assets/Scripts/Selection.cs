@@ -198,14 +198,7 @@ public class Selection : NetworkBehaviour
                     // selectionsA.Add(hitGameObject);
 
                     displayPosition = A_STARTING_POS;
-                    selectionCount = selectionsA.Count - 1;
-                                                                
-                    foreach(GameObject player in players){
-                        if(player.GetComponent<CanvasScript>().isLocalPlayer){
-                            Debug.Log("Updating Game State");
-                            player.GetComponent<CanvasScript>().CmdUpdateGameState(2);
-                        }
-                    }
+                    selectionCount = selectionsA.Count;
                 }
                 else if (gameState == 2)
                 {
@@ -213,15 +206,9 @@ public class Selection : NetworkBehaviour
                     // selectionsB.Add(hitGameObject);
 
                     displayPosition = B_STARTING_POS;
-                    selectionCount = selectionsB.Count - 1;
-
-                    foreach(GameObject player in players){
-                        if(player.GetComponent<CanvasScript>().isLocalPlayer){
-                            Debug.Log("Updaitng game state again");
-                            player.GetComponent<CanvasScript>().CmdUpdateGameState(1);
-                         }
-                    }       
+                    selectionCount = selectionsB.Count;  
                 }
+
                 Vector3 displayUnitPosition = displayPosition + new Vector3(TEAM_UNIT_GAP * selectionCount, 0, 0);         
 
                 foreach(GameObject player in players){                        
@@ -229,6 +216,17 @@ public class Selection : NetworkBehaviour
                         player.GetComponent<CanvasScript>().CmdConfirmSelection(displayUnitPosition); 
                     }
                 }
+
+                foreach(GameObject player in players){
+                    if(player.GetComponent<CanvasScript>().isLocalPlayer){
+                        Debug.Log("UPDATING GAME STATE");
+                        if (gameState == 1){
+                            player.GetComponent<CanvasScript>().CmdUpdateGameState(2);
+                        }else if (gameState ==2) {
+                            player.GetComponent<CanvasScript>().CmdUpdateGameState(1);
+                        }
+                    }
+                }     
             }
             else
             {
