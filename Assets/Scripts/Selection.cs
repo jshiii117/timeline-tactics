@@ -217,6 +217,7 @@ public class Selection : NetworkBehaviour
 
                     foreach(GameObject player in players){
                         if(player.GetComponent<CanvasScript>().isLocalPlayer){
+                            Debug.Log("Updaitng game state again");
                             player.GetComponent<CanvasScript>().CmdUpdateGameState(1);
                          }
                     }       

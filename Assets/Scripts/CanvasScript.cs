@@ -39,15 +39,15 @@ public class CanvasScript : NetworkBehaviour
 
     private void Update()
     {
-        // foreach (GameObject playerPrefab in GameObject.FindGameObjectsWithTag("Player"))
-        // {
-        //     if (playerPrefab.GetComponent<NetworkIdentity>().isLocalPlayer != true)
-        //     {
-        //         Debug.Log("Not local player");
-        //         playerPrefab.SetActive(false);
+        foreach (GameObject playerPrefab in GameObject.FindGameObjectsWithTag("Player"))
+        {
+            if (playerPrefab.GetComponent<NetworkIdentity>().isLocalPlayer != true)
+            {
+                Debug.Log("Not local player");
+                playerPrefab.SetActive(false);
                 
-        //     }
-        // }
+            }
+        }
         
     }
 
@@ -79,7 +79,7 @@ public class CanvasScript : NetworkBehaviour
 
     [Command]
     public void CmdConfirmSelection(Vector3 displayUnitPosition){
-        Debug.Log($"Updating selection GameObject name: {displayUnitPosition}");
+        Debug.Log("CMDCONFIRMSELECTION");
         
         Selection newSelectionManager = GameObject.Find("ScriptManager").GetComponent<Selection>();
 
@@ -123,8 +123,10 @@ public class CanvasScript : NetworkBehaviour
 
             if(newSelectionManager.gameState == 1) {
                 newSelectionManager.selectionsA.Add(spawnUnit);
+                Debug.Log("ADDED TO A");
             }else {
                 newSelectionManager.selectionsB.Add(spawnUnit);
+                Debug.Log("ADDED TO B");
             }
 
             
