@@ -206,7 +206,7 @@ public class Selection : NetworkBehaviour
     {
 
 
-        try {
+        if(initialHitGameObject != ""){
             GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
             if (!CheckIfSelected())
             {
@@ -251,8 +251,7 @@ public class Selection : NetworkBehaviour
                 Debug.Log("This unit has been selected. Please choose another");
             }
         }
-        
-        catch (UnassignedReferenceException)
+        else 
         {
             Debug.Log("Please select a unit");
         }
