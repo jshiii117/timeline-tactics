@@ -186,11 +186,29 @@ public class Selection : NetworkBehaviour
 
     }
 
+    private bool CheckIfSelected(){
+        List<GameObject> allSelections = new List<GameObject>();
+        allSelections.AddRange(selectionsA);
+        allSelections.AddRange(selectionsB);
+        Debug.Log($"All Selection: {allSelections}");
+
+        foreach(GameObject selectedUnit in allSelections){
+            if (selectedUnit.GetComponent<Unit>().unitName == initialHitGameObject){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+
     public void ConfirmSelection()
     {
+
+
         try {
             GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-            if (!selectionsA.Contains(hitGameObject) && !selectionsB.Contains(hitGameObject))
+            if (!CheckIfSelected())
             {
                 if (gameState == 1)
                 {
