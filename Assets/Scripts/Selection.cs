@@ -107,14 +107,12 @@ public class Selection : NetworkBehaviour
         UpdateShownUnits();
 
         gameState = 1;
-        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-        foreach(GameObject player in players){
-            Debug.Log("Found a player:" + player.name);
-            if(player.GetComponent<CanvasScript>().isLocalPlayer){
-                Debug.Log("LOCAL PLAYER");
-                player.GetComponent<CanvasScript>().CmdUpdateGameState(gameState);
-            }
-        }
+        // GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        // foreach(GameObject player in players){
+        //     if(player.GetComponent<CanvasScript>().isLocalPlayer){
+        //         player.GetComponent<CanvasScript>().CmdUpdateGameState(gameState);
+        //     }
+        // }
         
     }
 
@@ -190,7 +188,6 @@ public class Selection : NetworkBehaviour
         List<GameObject> allSelections = new List<GameObject>();
         allSelections.AddRange(selectionsA);
         allSelections.AddRange(selectionsB);
-        Debug.Log($"All Selection: {allSelections}");
 
         foreach(GameObject selectedUnit in allSelections){
             if (selectedUnit.GetComponent<Unit>().unitName == initialHitGameObject){
@@ -213,7 +210,6 @@ public class Selection : NetworkBehaviour
                 if (gameState == 1)
                 {
                     infoText.text = ($"Player A selected {hitGameObject.GetComponent<Unit>().unitName}");
-                    // selectionsA.Add(hitGameObject);
 
                     displayPosition = A_STARTING_POS;
                     selectionCount = selectionsA.Count;
@@ -221,7 +217,6 @@ public class Selection : NetworkBehaviour
                 else if (gameState == 2)
                 {
                     infoText.text = ($"Player B selected {hitGameObject.GetComponent<Unit>().unitName}");
-                    // selectionsB.Add(hitGameObject);
 
                     displayPosition = B_STARTING_POS;
                     selectionCount = selectionsB.Count;  
@@ -237,7 +232,6 @@ public class Selection : NetworkBehaviour
 
                 foreach(GameObject player in players){
                     if(player.GetComponent<CanvasScript>().isLocalPlayer){
-                        Debug.Log("UPDATING GAME STATE");
                         if (gameState == 1){
                             player.GetComponent<CanvasScript>().CmdUpdateGameState(2);
                         }else if (gameState ==2) {

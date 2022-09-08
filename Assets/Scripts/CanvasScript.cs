@@ -43,9 +43,7 @@ public class CanvasScript : NetworkBehaviour
         {
             if (playerPrefab.GetComponent<NetworkIdentity>().isLocalPlayer != true)
             {
-                Debug.Log("Not local player");
                 playerPrefab.SetActive(false);
-                
             }
         }
         
@@ -78,9 +76,7 @@ public class CanvasScript : NetworkBehaviour
     }
 
     [Command]
-    public void CmdConfirmSelection(Vector3 displayUnitPosition){
-        Debug.Log("CMDCONFIRMSELECTION");
-        
+    public void CmdConfirmSelection(Vector3 displayUnitPosition){        
         Selection newSelectionManager = GameObject.Find("ScriptManager").GetComponent<Selection>();
 
         try{
@@ -117,21 +113,17 @@ public class CanvasScript : NetworkBehaviour
             spawnUnit.transform.position = displayUnitPosition;
             spawnUnit.gameObject.tag = "SelectedUnit";
 
-
-            Debug.Log("SpawnUnit IS: " + spawnUnit);
             NetworkServer.Spawn(spawnUnit);
 
             if(newSelectionManager.gameState == 1) {
                 newSelectionManager.selectionsA.Add(spawnUnit);
-                Debug.Log("ADDED TO A");
             }else {
                 newSelectionManager.selectionsB.Add(spawnUnit);
-                Debug.Log("ADDED TO B");
             }
 
             
         }catch (Exception ex) {
-            Debug.Log($"This is not server exception: {ex}");
+            Debug.Log($"Exception with CmdSpawnSelection: {ex}");
         }        
     }
     
