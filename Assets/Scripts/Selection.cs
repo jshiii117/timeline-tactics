@@ -70,16 +70,14 @@ public class Selection : NetworkBehaviour
         infoUnitPicture.layer = 5;
         infoUnitPicture.name = "Info Unit Picture";
         infoUnitPicture.transform.position = INFOPANEL_UNIT;
-        
-
-        
+        infoUnitPicture.GetComponent<SpriteRenderer>().sortingLayerName = "UI";
+        infoUnitPicture.GetComponent<SpriteRenderer>().sortingOrder = 2;
     }
 
 
     public override void OnStartClient()
     {
         GameObject testObject = GameObject.Find("SelectableUnits").GetComponent<UnitsManager>().caveman;
-        // CmdUpdateHitGameObject(testObject);
     }
 
     public void InitializeUnits() //Being called from UnitsManager
@@ -106,14 +104,7 @@ public class Selection : NetworkBehaviour
         }
         UpdateShownUnits();
 
-        gameState = 1;
-        // GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-        // foreach(GameObject player in players){
-        //     if(player.GetComponent<CanvasScript>().isLocalPlayer){
-        //         player.GetComponent<CanvasScript>().CmdUpdateGameState(gameState);
-        //     }
-        // }
-        
+        gameState = 1;        
     }
 
     public void UpdateShownUnits()
@@ -291,10 +282,7 @@ public class Selection : NetworkBehaviour
                 passiveText.text = ($"PASSIVE:@{hitGameObject.GetComponent<Unit>().passiveAbility}").Replace("@", System.Environment.NewLine).ToUpper();
                 specialText.text = ($"SPECIAL:@{hitGameObject.GetComponent<Unit>().specialAbility}").Replace("@", System.Environment.NewLine).ToUpper();
 
-                infoUnitPicture.GetComponent<SpriteRenderer>().sortingLayerName = "UI";
-                infoUnitPicture.GetComponent<SpriteRenderer>().sortingOrder = 2;
                 infoUnitPicture.GetComponent<SpriteRenderer>().sprite = hitGameObject.GetComponent<SpriteRenderer>().sprite;
-                // infoUnitPicture = Instantiate(hitGameObject, INFOPANEL_UNIT, Quaternion.identity);
 
             }
         }
@@ -330,12 +318,9 @@ public class Selection : NetworkBehaviour
                 passiveText.text = ($"PASSIVE:@{hitGameObject.GetComponent<Unit>().passiveAbility}").Replace("@", System.Environment.NewLine).ToUpper();
                 specialText.text = ($"SPECIAL:@{hitGameObject.GetComponent<Unit>().specialAbility}").Replace("@", System.Environment.NewLine).ToUpper();
 
-
-
-                GameObject.Destroy(GameObject.Find("infoUnitPicture"));
-                infoUnitPicture = Instantiate(hitGameObject, INFOPANEL_UNIT, Quaternion.identity);
-                //Set GameObject to idle(initial frame) state
-                infoUnitPicture.name = "infoUnitPicture";
+                infoUnitPicture.GetComponent<SpriteRenderer>().sortingLayerName = "UI";
+                infoUnitPicture.GetComponent<SpriteRenderer>().sortingOrder = 2;
+                infoUnitPicture.GetComponent<SpriteRenderer>().sprite = hitGameObject.GetComponent<SpriteRenderer>().sprite;
 
             }
         }
