@@ -333,6 +333,8 @@ public class Selection : NetworkBehaviour
             gameState = 4;
             DontDestroyOnLoad(this.gameObject);
             DontDestroyOnLoad(GameObject.Find("SelectableUnits"));
+            //Maintaining player prefab
+            DontDestroyOnLoad(GameObject.FindGameObjectWithTag("Player"));
             SceneManager.LoadScene("Battle");
         }    
     }
