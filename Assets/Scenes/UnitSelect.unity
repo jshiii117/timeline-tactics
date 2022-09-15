@@ -189,8 +189,6 @@ MonoBehaviour:
   syncInterval: 0.1
   gameState: 0
   selectionAll: []
-  selectionsA: []
-  selectionsB: []
   titleText: {fileID: 0}
   infoUnitPicture: {fileID: 0}
   infoText: {fileID: 0}
@@ -203,6 +201,8 @@ MonoBehaviour:
   selectionButton: {fileID: 0}
   shownUnits: []
   hitGameObject: {fileID: 0}
+  initialHitGameObject: 
+  hitGameObjectName: 
 --- !u!4 &167985781
 Transform:
   m_ObjectHideFlags: 0
@@ -411,7 +411,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1716765479
-  m_SortingLayer: 3
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: -995945211143422487, guid: c5940e1572ac7864ba6c662b9f6b6781, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -596,7 +596,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -2081194035
-  m_SortingLayer: 2
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -750,6 +750,7 @@ MonoBehaviour:
   - {fileID: 8270383752457824732, guid: b0be003d912831d44a22c6c3fafea73f, type: 3}
   - {fileID: 530671810705410349, guid: af70d0b5f58d47644928a39cafbc4610, type: 3}
   - {fileID: 4801486177037645482, guid: 48e1ec42ba8a8e9458868bfbee2d6cad, type: 3}
+  - {fileID: 8759121201905130117, guid: faffea128587ceb4b9b354ff1497a79f, type: 3}
 --- !u!4 &1890611287
 Transform:
   m_ObjectHideFlags: 0

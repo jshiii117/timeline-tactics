@@ -126,6 +126,13 @@ public class CanvasScript : NetworkBehaviour
             Debug.Log($"Exception with CmdSpawnSelection: {ex}");
         }        
     }
+
+    [Command]
+
+    public void InitializeBattleManager(){
+        NetworkServer.Spawn(GameObject.Find("BattleManager"));
+        Debug.Log("Called InitializeBattleManager");
+    }
     
 
 }

@@ -5,6 +5,7 @@ using Random = System.Random;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Mirror;
+using System;
 
 public class Unit : NetworkBehaviour
 {
@@ -49,7 +50,12 @@ public class Unit : NetworkBehaviour
     {
         if (SceneManager.GetActiveScene().name == "Battle")
         {
-            battleManager = GameObject.Find("BattleManager").GetComponent<Battle>();
+            try{
+                battleManager = GameObject.Find("BattleManager").GetComponent<Battle>();
+
+            }catch (Exception ex){
+                Debug.Log("Exception: " + ex);
+            }
 
             if (unitCurrentHealth <= 0)
             {

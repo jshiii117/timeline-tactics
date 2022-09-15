@@ -333,9 +333,28 @@ public class Selection : NetworkBehaviour
             gameState = 4;
             DontDestroyOnLoad(this.gameObject);
             DontDestroyOnLoad(GameObject.Find("SelectableUnits"));
+            DontDestroyOnLoad(GameObject.Find("ScriptManager"));
             //Maintaining player prefab
             DontDestroyOnLoad(GameObject.FindGameObjectWithTag("Player"));
+
+            foreach(GameObject selectedUnit in selectionsA){
+                DontDestroyOnLoad(selectedUnit);
+            }
+
+            foreach(GameObject selectedUnit in selectionsB){
+                DontDestroyOnLoad(selectedUnit);
+            }
             SceneManager.LoadScene("Battle");
         }    
+
+        if (SceneManager.GetActiveScene().name == "Battle"){
+            try{
+   GameObject.FindGameObjectWithTag("Player").GetComponent<CanvasScript>().InitializeBattleManager();
+            }catch (Exception ex){
+                Debug.Log("Exception with InitializeBattleManager: " + ex);
+            }
+         
+            Debug.Log("Initialized Battle Manager");
+        }
     }
 }

@@ -1,10 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Mirror;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Battle : MonoBehaviour
+public class Battle : NetworkBehaviour
 {
     private class sort : IComparer<GameObject>
     {
@@ -18,8 +19,11 @@ public class Battle : MonoBehaviour
 
     [Header("Unit Management")]
     public List<GameObject> allUnits;
-    public List<GameObject> aUnits;
-    public List<GameObject> bUnits;
+    public readonly SyncList<GameObject> aUnits = new SyncList<GameObject>();
+    public readonly SyncList<GameObject> bUnits = new SyncList<GameObject>();
+
+    // public List<GameObject> aUnits;
+    // public List<GameObject> bUnits;
     public List<Vector3> unitPositions;
 
     public enum GameState { Start, ATurn, BTurn, Transition, Complete };
@@ -77,13 +81,18 @@ public class Battle : MonoBehaviour
 
     void Start()
     {
+        try{
+            NetworkServer.Spawn(this.gameObject);
+        } catch (Exception ex){
+            Debug.Log("Exception spawning BattleManager: " + ex);
+        }
         cam = Camera.main;
         camInitialPosition = cam.transform.position;
 
         //Adding in selected units from Selection scene 
         GameObject selectionManager = GameObject.Find("ScriptManager");
-        // aUnits = selectionManager.GetComponent<Selection>().selectionsA;
-        // bUnits = selectionManager.GetComponent<Selection>().selectionsB;
+        aUnits.AddRange(selectionManager.GetComponent<Selection>().selectionsA);
+        bUnits.AddRange(selectionManager.GetComponent<Selection>().selectionsB);
         allUnits.AddRange(aUnits);
         allUnits.AddRange(bUnits);
 

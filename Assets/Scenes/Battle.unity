@@ -2252,7 +2252,7 @@ Transform:
   m_LocalScale: {x: 3.1165416, y: 3.149038, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &825432561
 GameObject:
@@ -2580,7 +2580,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1268089916}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Battle, Assembly-CSharp
         m_MethodName: OnSpecialAttackButtonPress
         m_Mode: 1
@@ -2883,7 +2883,7 @@ MonoBehaviour:
   indicatorTimer: 1
   maxIndicatorTimer: 1
   radialIndicatorUI: {fileID: 946652755}
-  battleManager: {fileID: 1268089916}
+  battleManager: {fileID: 0}
 --- !u!114 &946652755
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3822,83 +3822,6 @@ RectTransform:
   m_AnchoredPosition: {x: 3.157, y: -4.2}
   m_SizeDelta: {x: -33.815, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &1268089915
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1268089917}
-  - component: {fileID: 1268089916}
-  m_Layer: 0
-  m_Name: BattleManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1268089916
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1268089915}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8001c0df331afcc4f868c43aaadcda0d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  allUnits: []
-  aUnits: []
-  bUnits: []
-  unitPositions: []
-  hpSliders: []
-  targetIndicators: []
-  gameState: 0
-  round: 0
-  turn: 0
-  activeUnit: {fileID: 0}
-  activeUnitScript: {fileID: 0}
-  moveSelected: 
-  allowableTarget: 
-  target: {fileID: 0}
-  executingMove: 0
-  attackButton: {fileID: 1771075252}
-  specialAttackButton: {fileID: 868628057}
-  announcement: {fileID: 868240704}
-  cam: {fileID: 0}
-  camInitialPosition: {x: 0, y: 0, z: 0}
-  infoTarget: {fileID: 0}
-  titleText: {fileID: 200094234}
-  hpText: {fileID: 237317065}
-  attackText: {fileID: 1561115278}
-  speedText: {fileID: 1301284018}
-  statusEffectTexts: {fileID: 490673870}
-  passiveTitle: {fileID: 172443672}
-  passiveText: {fileID: 385300195}
-  specialTitle: {fileID: 553547868}
-  specialText: {fileID: 1898517909}
-  playerAMana: 8
-  playerAManaBar: {fileID: 117254047}
-  playerBMana: 8
-  playerBManaBar: {fileID: 1805468173}
---- !u!4 &1268089917
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1268089915}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.37531623, y: 0.98048234, z: -39.151154}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1283576505
 GameObject:
   m_ObjectHideFlags: 0
@@ -4222,7 +4145,7 @@ Transform:
   m_LocalScale: {x: 3.1336, y: 3.1336, z: 3.1336}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1359992839
 GameObject:
@@ -4402,7 +4325,7 @@ RectTransform:
   - {fileID: 695383570}
   - {fileID: 117254046}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -5547,7 +5470,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1268089916}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Battle, Assembly-CSharp
         m_MethodName: OnAttackButtonPress
         m_Mode: 1
