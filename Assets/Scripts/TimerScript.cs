@@ -22,6 +22,9 @@ public class TimerScript : MonoBehaviour
 
     void Update()
     {
+        battleManager = GameObject.FindWithTag("BattleManager").GetComponent<Battle>();
+
+
         if (radialIndicatorUI.fillAmount > 0)
         {
             indicatorTimer -= Time.deltaTime * 0.3f;
