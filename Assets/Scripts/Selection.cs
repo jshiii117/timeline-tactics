@@ -349,7 +349,7 @@ public class Selection : NetworkBehaviour
 
         if (SceneManager.GetActiveScene().name == "Battle"){
             try{
-   GameObject.FindGameObjectWithTag("Player").GetComponent<CanvasScript>().InitializeBattleManager();
+                GameObject.FindGameObjectWithTag("Player").GetComponent<CanvasScript>().InitializeBattleManager();
             }catch (Exception ex){
                 Debug.Log("Exception with InitializeBattleManager: " + ex);
             }

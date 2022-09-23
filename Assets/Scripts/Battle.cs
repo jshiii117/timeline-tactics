@@ -81,11 +81,7 @@ public class Battle : NetworkBehaviour
 
     void Start()
     {
-        try{
-            NetworkServer.Spawn(this.gameObject);
-        } catch (Exception ex){
-            Debug.Log("Exception spawning BattleManager: " + ex);
-        }
+
         cam = Camera.main;
         camInitialPosition = cam.transform.position;
 
@@ -100,6 +96,24 @@ public class Battle : NetworkBehaviour
         //Battle
         allUnits.Sort((IComparer<GameObject>)new sort());
         allUnits.Reverse();
+
+        attackButton = GameObject.Find("AttackButton").GetComponent<Button>();
+        specialAttackButton = GameObject.Find("SpecialButton").GetComponent<Button>();
+        announcement = GameObject.Find("Announcement").GetComponent<Text>();
+
+        // infoTarget = 
+        titleText = GameObject.Find("titleText").GetComponent<Text>();
+        hpText = GameObject.Find("hpText").GetComponent<Text>();
+        attackText = GameObject.Find("attackText").GetComponent<Text>();
+        speedText = GameObject.Find("speedText").GetComponent<Text>();
+        statusEffectTexts = GameObject.Find("statusInfo").GetComponent<Text>();
+        passiveTitle = GameObject.Find("passiveTitle").GetComponent<Text>();
+        passiveText = GameObject.Find("passiveInfo").GetComponent<Text>();
+        specialTitle = GameObject.Find("specialTitle").GetComponent<Text>();
+        specialText = GameObject.Find("specialInfo").GetComponent<Text>();
+
+        playerAManaBar = GameObject.Find("PlayerManaBar").GetComponent<Slider>();
+        playerBManaBar = GameObject.Find("EnemyManaBar").GetComponent<Slider>();
 
         //Destroying unselected units and tagging units with player sides 
         foreach (GameObject unit in GameObject.FindGameObjectsWithTag("Unit"))

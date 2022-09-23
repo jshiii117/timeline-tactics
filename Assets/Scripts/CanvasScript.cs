@@ -10,6 +10,8 @@ public class CanvasScript : NetworkBehaviour
 {
 
     public GameObject monk;
+
+    public GameObject battleManager;
     [SerializeField] Selection selectionManager;
 
     void Start()
@@ -130,7 +132,8 @@ public class CanvasScript : NetworkBehaviour
     [Command]
 
     public void InitializeBattleManager(){
-        NetworkServer.Spawn(GameObject.Find("BattleManager"));
+        Instantiate(battleManager);
+        // NetworkServer.Spawn(battleManager);
         Debug.Log("Called InitializeBattleManager");
     }
     

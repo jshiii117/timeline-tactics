@@ -51,10 +51,11 @@ public class Unit : NetworkBehaviour
         if (SceneManager.GetActiveScene().name == "Battle")
         {
             try{
-                battleManager = GameObject.Find("BattleManager").GetComponent<Battle>();
+                announcement = GameObject.Find("Announcement").GetComponent<Text>();
+                battleManager = GameObject.FindWithTag("BattleManager").GetComponent<Battle>();
 
             }catch (Exception ex){
-                Debug.Log("Exception: " + ex);
+                Debug.Log("ERROR: " + ex);
             }
 
             if (unitCurrentHealth <= 0)
